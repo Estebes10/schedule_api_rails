@@ -4,6 +4,7 @@ FactoryGirl.define do
     name             Faker::Name.name
     last_name        Faker::Name.last_name + ' ' + Faker::Name.last_name
     password_digest  'contrasena'
+    id_collegue      Faker::Company.norwegian_organisation_number
     email            Faker::Internet.email
     phone            Faker::PhoneNumber.cell_phone
     gender           'Female'

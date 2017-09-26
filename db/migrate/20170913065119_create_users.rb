@@ -4,6 +4,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
     create_table :users do |t|
       t.string  :name,            limit: 64, null: false
       t.string  :last_name,       limit: 64, null: false
+      t.string  :id_collegue,     limit: 16, null: false
       t.string  :password_digest, limit: 32, null: false
       t.string  :email,           limit: 64, null: false
       t.string  :phone,           limit: 32, null: false

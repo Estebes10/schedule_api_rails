@@ -8,6 +8,10 @@ class User < ApplicationRecord
     presence: true,
     length:   { maximum: 64 }
 
+  validates :id_collegue,
+    presence: true,
+    length:   { maximum: 16 }
+
   validates :password_digest,
     presence: true,
     length:   { maximum: 32 }
@@ -18,7 +22,7 @@ class User < ApplicationRecord
 
   validates :phone,
     presence: true,
-    length:   { maximum: 64 }
+    length:   { maximum: 32 }
 
   validates :gender,
     presence: true,

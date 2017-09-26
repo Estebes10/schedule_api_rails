@@ -9,7 +9,7 @@ RSpec.describe User, type: :model do
 
   # Test for all valid attributes are given
   it 'is valid if the name, last_name, password, email, phone_number, gender' \
-     ' and status are given' do
+     'id_collegue and status are given' do
     expect(user).to be_valid
   end
 
@@ -22,6 +22,12 @@ RSpec.describe User, type: :model do
 
   it 'is not valid without a last_name' do
     user.last_name = nil
+
+    expect(user).not_to be_valid
+  end
+
+  it 'is not valid without a id_collegue' do
+    user.id_collegue = nil
 
     expect(user).not_to be_valid
   end
@@ -75,6 +81,12 @@ RSpec.describe User, type: :model do
     expect(user).not_to be_valid
   end
 
+  it 'is not valid if the id_collegue given contains more than 16 characters' do
+    user.id_collegue = 'a' * 17
+
+    expect(user).not_to be_valid
+  end
+
   it 'is not valid if the password given contains more than 32 characters' do
     user.password_digest = 'a' * 33
 
@@ -87,8 +99,8 @@ RSpec.describe User, type: :model do
     expect(user).not_to be_valid
   end
 
-  it 'is not valid if the phone number given contains more than 64 characters' do
-    user.phone = 'a' * 65
+  it 'is not valid if the phone number given contains more than 32 characters' do
+    user.phone = 'a' * 33
 
     expect(user).not_to be_valid
   end
