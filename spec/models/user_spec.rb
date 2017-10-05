@@ -111,4 +111,13 @@ RSpec.describe User, type: :model do
     expect(user).not_to be_valid
   end
 
+  # validate uniqueness for email attribute
+  it 'is not valid if the email is not unique' do
+    # Create a previos record of users and then try to save the new user built
+    # before
+    FactoryGirl.create(:user, email: user.email)
+
+    expect(user).not_to be_valid
+  end
+
 end
