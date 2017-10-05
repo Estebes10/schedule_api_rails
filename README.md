@@ -17,13 +17,33 @@ Things you may want to cover:
   * database_cleaner - Gem to clean our test database to ensure a clean state in each test suite.
   * faker - A library for generating fake data.
 
-* Configuration
+## Configuration
+  * Database creation
+    * Prepare database (Create database, load schema and initialize seeds)
+    ```shell
+      rails db:setup
+    ```
 
-* Database creation
+  * Database initialization
+    * Load schema and initialize seeds
+    ```shell
+      rails db:schema:load
+      rails db:seed
+    ```
 
-* Database initialization
+  * Reset database
+    * Resseting database
+    ```shell
+      rails db:reset -> rails db:drop db:setup.
+    ```
+
+    * Update schema file
+    ```shell
+      rails db:schema:dump
+      rails db:migrate:reset
+    ```
 
 * How to run the test suite
   ```shell
-    bundle exec rspec
+    bundle exec rspec spec/
   ```
