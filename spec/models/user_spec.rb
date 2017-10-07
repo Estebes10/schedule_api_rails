@@ -88,7 +88,9 @@ RSpec.describe User, type: :model do
   end
 
   it 'is not valid if the password given contains more than 32 characters' do
-    user.password_digest = 'a' * 33
+    # to this test we use password because we are testing the length of the
+    # string on params before to be encrypted to a hash for password_digest
+    user.password = 'a' * 33
 
     expect(user).not_to be_valid
   end

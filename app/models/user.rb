@@ -16,8 +16,10 @@ class User < ApplicationRecord
     length:   { maximum: 16 }
 
   validates :password_digest,
-    presence: true,
-    length:   { maximum: 32 }
+    presence: true
+
+  validates :password,
+    length: { maximum: 32 }
 
   validates :email,
     presence:   true,
