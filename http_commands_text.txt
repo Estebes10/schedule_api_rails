@@ -1,2 +1,5 @@
 # Example of command to create a new user account
 $http :3000/signup name=Juan last_name=Estebes email=juan@example.com password=hola password_confirmation=hola id_collegue=a01204421 phone=4481015410 gender=Male birthday=2017-06-06 status=true
+
+# How to login a user using the user created before
+$http :3000/auth/login email=juan@example.com password=hola
