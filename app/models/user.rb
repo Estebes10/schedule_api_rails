@@ -1,5 +1,8 @@
 class User < ApplicationRecord
 
+  # encrypt password
+  has_secure_password
+
   validates :name,
     presence: true,
     length:   { maximum: 64 }
