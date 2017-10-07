@@ -1,6 +1,8 @@
 # require database cleaner at the top level
 require 'database_cleaner'
+
 require 'shoulda/matchers'
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
@@ -49,6 +51,13 @@ RSpec.configure do |config|
 
   # add `FactoryGirl` methods
   config.include FactoryGirl::Syntax::Methods
+
+  # Add request directory to test any kind of requests
+  # config.include RequestSpecHelper, type: :request
+
+  # include test helpers from support directory
+  config.include RequestSpecHelper
+  config.include ControllerSpecHelper
 
   # start by truncating all the tables but then use the faster transaction strategy the rest of the time.
   config.before(:suite) do
