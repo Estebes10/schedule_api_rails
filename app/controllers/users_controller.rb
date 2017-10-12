@@ -25,7 +25,7 @@ class UsersController < ApplicationController
       :name,
       :last_name,
       :email,
-      :id_collegue,
+      :id_college,
       :phone,
       :gender,
       :password,

@@ -11,7 +11,7 @@ class User < ApplicationRecord
     presence: true,
     length:   { maximum: 64 }
 
-  validates :id_collegue,
+  validates :id_college,
     presence: true,
     length:   { maximum: 16 }
 
