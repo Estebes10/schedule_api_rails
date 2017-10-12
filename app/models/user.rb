@@ -1,5 +1,8 @@
 class User < ApplicationRecord
 
+  # encrypt password
+  has_secure_password
+
   validates :name,
     presence: true,
     length:   { maximum: 64 }
@@ -8,13 +11,15 @@ class User < ApplicationRecord
     presence: true,
     length:   { maximum: 64 }
 
-  validates :id_collegue,
+  validates :id_college,
     presence: true,
     length:   { maximum: 16 }
 
   validates :password_digest,
-    presence: true,
-    length:   { maximum: 32 }
+    presence: true
+
+  validates :password,
+    length: { maximum: 32 }
 
   validates :email,
     presence:   true,

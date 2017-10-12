@@ -9,7 +9,7 @@ RSpec.describe User, type: :model do
 
   # Test for all valid attributes are given
   it 'is valid if the name, last_name, password, email, phone_number, gender' \
-     'id_collegue and status are given' do
+     'id_college and status are given' do
     expect(user).to be_valid
   end
 
@@ -26,8 +26,8 @@ RSpec.describe User, type: :model do
     expect(user).not_to be_valid
   end
 
-  it 'is not valid without a id_collegue' do
-    user.id_collegue = nil
+  it 'is not valid without a id_college' do
+    user.id_college = nil
 
     expect(user).not_to be_valid
   end
@@ -81,14 +81,16 @@ RSpec.describe User, type: :model do
     expect(user).not_to be_valid
   end
 
-  it 'is not valid if the id_collegue given contains more than 16 characters' do
-    user.id_collegue = 'a' * 17
+  it 'is not valid if the id_college given contains more than 16 characters' do
+    user.id_college = 'a' * 17
 
     expect(user).not_to be_valid
   end
 
   it 'is not valid if the password given contains more than 32 characters' do
-    user.password_digest = 'a' * 33
+    # to this test we use password because we are testing the length of the
+    # string on params before to be encrypted to a hash for password_digest
+    user.password = 'a' * 33
 
     expect(user).not_to be_valid
   end
