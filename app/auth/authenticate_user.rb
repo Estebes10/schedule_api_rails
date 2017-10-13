@@ -1,3 +1,4 @@
+# This class will be responsible for authenticating users via email and password.
 class AuthenticateUser
 
   # class initilization
