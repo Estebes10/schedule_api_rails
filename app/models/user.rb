@@ -1,5 +1,8 @@
 class User < ApplicationRecord
 
+  has_many :assignments
+  has_many :roles, through: :assignments
+
   # encrypt password
   has_secure_password
 
@@ -39,5 +42,13 @@ class User < ApplicationRecord
 
   validates :status,
     inclusion: { in: [ true, false ] }
+
+  def role?
+    roles.any?
+  end
+
+  def role_name?
+    return roles.first.name if role?
+  end
 
 end

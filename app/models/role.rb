@@ -1,9 +1,16 @@
 class Role < ApplicationRecord
 
-  validates :name,
+  has_many :assignments
+  has_many :users, through: :assignments
+
+  validates :code,
     presence:  true,
     length:    { maximum: 32 },
     uniqueness: true
+
+  validates :name,
+    presence:  true,
+    length:    { maximum: 32 }
 
   validates :description,
     presence: true,
