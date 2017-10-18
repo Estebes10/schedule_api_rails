@@ -12,7 +12,4 @@ RSpec.describe Assignment, type: :model do
     expect(assc.macro).to eq(:belongs_to)
   end
 
-  it { should belong_to(:role) }
-  it { should belong_to(:user) }
-
 end
