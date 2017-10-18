@@ -44,4 +44,13 @@ RSpec.describe Role, type: :model do
     expect(role).not_to be_valid
   end
 
+  # validate uniqueness for name attribute
+  it 'is not valid if the name is not unique' do
+    # Create a previos record of roles and then try to save the new role built
+    # before
+    FactoryGirl.create(:role, name: role.name)
+
+    expect(role).not_to be_valid
+  end
+
 end

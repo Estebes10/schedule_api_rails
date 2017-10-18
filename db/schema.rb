@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20171018030721) do
     t.boolean  "status",                 null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.index ["name"], name: "index_roles_on_name", unique: true, using: :btree
   end
 
   create_table "users", force: :cascade do |t|
