@@ -11,7 +11,7 @@ class UsersController < ApplicationController
       auth_token = AuthenticateUser.new(user.email, user.password).call
       response = { message: Message.account_created, auth_token: auth_token }
       json_response(response, :created)
-      role = Role.find_by(code: 'estudiante')
+      role = Role.find_by(code: 'Student')
       Assignment.create(role: role, user: user)
     else
       json_response(response, :unprocessable_entity)
