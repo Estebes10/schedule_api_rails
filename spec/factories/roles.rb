@@ -1,8 +1,9 @@
 FactoryGirl.define do
 
   factory :role do
+    code        Faker::Lorem.characters(31)
     name        Faker::Job.field
-    description Faker::Job.title
+    description 'Description for this code'
     status      true
   end
 

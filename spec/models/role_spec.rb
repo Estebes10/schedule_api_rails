@@ -8,7 +8,7 @@ RSpec.describe Role, type: :model do
   end
 
   # Test for all valid attributes are given
-  it 'is valid if the name, description and status are given' do
+  it 'is valid if the code, name, description and status are given' do
     expect(role).to be_valid
   end
 
@@ -31,7 +31,19 @@ RSpec.describe Role, type: :model do
     expect(role).not_to be_valid
   end
 
+  it 'is not valid without a code' do
+    role.code = nil
+
+    expect(role).not_to be_valid
+  end
+
   # Set of tests to validate the length for each attribute
+  it 'is not valid if the code given contains more than 32 characters' do
+    role.code = 'a' * 33
+
+    expect(role).not_to be_valid
+  end
+
   it 'is not valid if the name given contains more than 32 characters' do
     role.name = 'a' * 33
 
@@ -48,9 +60,13 @@ RSpec.describe Role, type: :model do
   it 'is not valid if the name is not unique' do
     # Create a previos record of roles and then try to save the new role built
     # before
-    FactoryGirl.create(:role, name: role.name)
+    FactoryGirl.create(:role, code: role.code)
 
     expect(role).not_to be_valid
   end
+
+  # validate association with users
+  it { should have_many(:assignments) }
+  it { should have_many(:users).through(:assignments) }
 
 end
