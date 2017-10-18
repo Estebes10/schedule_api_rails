@@ -6,14 +6,6 @@ Role.create(
 )
 
 Role.create(
-  code:        'director_carrera',
-  name:        'Director Carrera',
-  status:      true,
-  description: 'Persona encargada de gestionar las materias y planes de ' \
-                 'estudio de una carrera'
-)
-
-Role.create(
   code:        'director_departamento',
   name:        'Director de departamento',
   status:      true,
@@ -26,4 +18,11 @@ Role.create(
   name:        'Estudiante',
   status:      true,
   description: 'Persona que estudia en el campus'
+)
+
+Role.create(
+  code:        'director_carrera',
+  name:        'Director de carrera',
+  status:      true,
+  description: 'Persona encarga de gestionar materias de una carrera'
 )
