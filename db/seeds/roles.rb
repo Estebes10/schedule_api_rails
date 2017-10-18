@@ -1,12 +1,12 @@
 Role.create(
-  code:        'administrador',
+  code:        'Administrator',
   name:        'Administrador',
   status:      true,
   description: 'Persona encargada de gestionar todo el sistema'
 )
 
 Role.create(
-  code:        'director_departamento',
+  code:        'Department_Director',
   name:        'Director de departamento',
   status:      true,
   description: 'Persona encargada de gestionar los departamentos y sus ' \
@@ -14,14 +14,14 @@ Role.create(
 )
 
 Role.create(
-  code:        'estudiante',
+  code:        'Student',
   name:        'Estudiante',
   status:      true,
   description: 'Persona que estudia en el campus'
 )
 
 Role.create(
-  code:        'director_carrera',
+  code:        'Career_Director',
   name:        'Director de carrera',
   status:      true,
   description: 'Persona encarga de gestionar materias de una carrera'
