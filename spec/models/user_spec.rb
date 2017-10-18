@@ -122,4 +122,52 @@ RSpec.describe User, type: :model do
     expect(user).not_to be_valid
   end
 
+  # validate association with roles
+  it { should have_many(:assignments) }
+  it { should have_many(:roles).through(:assignments) }
+
+  # validate role for users
+  describe '.role?'do
+
+    before(:each) do
+      @user = FactoryGirl.create(:user)
+      @role = FactoryGirl.create(:role)
+    end
+
+    it 'verify if the user has one role' do
+      expect(@user.role?).to eq(false)
+    end
+
+    it 'validates if the role is saved' do
+      Assignment.create(user: @user, role: @role)
+
+      expect(@user.role?).to eq(true)
+    end
+
+  end
+
+  # validate role name for users
+  describe '.role_name?'do
+
+    before(:each) do
+      @user = FactoryGirl.create(:user)
+      @role = FactoryGirl.create(:role)
+    end
+
+    after(:all) do
+      User.destroy_all
+    end
+
+    it 'not return the name' do
+      expect(@user.role_name?).to eq(nil)
+    end
+
+    it 'returns the role name' do
+      Assignment.create(user: @user, role: @role)
+
+      expect(@user.role_name?).to eq(@role.name)
+    end
+
+  end
+
 end
