@@ -8,12 +8,13 @@ class CreateCourses < ActiveRecord::Migration[5.0]
       t.integer :units,                  null: false
       t.integer :class_hours,            null: false
       t.integer :lab_hours,              null: false
-      t.boolean :status,                 null: false
+      t.boolean :status,                 null: false, default: true
 
       t.timestamps
     end
 
     add_index :courses, :name, unique: true
+    add_index :courses, :code, unique: true
   end
 
 end
