@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe StudyProgram, type: :model do
 
   subject(:study_program) do
-    # Returns a User instance that's not saved
+    # Returns a StudyProgram instance that's not saved
     FactoryGirl.build(:study_program)
   end
 
@@ -54,9 +54,11 @@ RSpec.describe StudyProgram, type: :model do
   end
 
   # Test associations
+  # validate association with courses
+  it { should have_many(:course_programs) }
+  it { should have_many(:courses).through(:course_programs) }
 
   it 'has many students'
-  it 'has many courses'
   it 'belongs to career'
 
 end

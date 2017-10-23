@@ -1,5 +1,10 @@
 class StudyProgram < ApplicationRecord
 
+  # Associations
+  has_many :course_programs
+  has_many :courses, through: :course_programs
+
+  # Attributes validation
   validates :name,
     presence:   true,
     length:     { maximum: 32 },

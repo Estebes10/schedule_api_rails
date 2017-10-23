@@ -1,8 +1,10 @@
 class Role < ApplicationRecord
 
+  # Associations
   has_many :assignments
   has_many :users, through: :assignments
 
+  # Attributes validation
   validates :code,
     presence:  true,
     length:    { maximum: 32 },

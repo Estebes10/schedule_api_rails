@@ -1,11 +1,13 @@
 class User < ApplicationRecord
 
+  # Associations
   has_many :assignments
   has_many :roles, through: :assignments
 
   # encrypt password
   has_secure_password
 
+  # Attributes validation
   validates :name,
     presence: true,
     length:   { maximum: 64 }
