@@ -87,7 +87,7 @@ RSpec.describe Course, type: :model do
     expect(course).not_to be_valid
   end
 
-  # validate associations
+  # test associations
 
   # validate association with study programs
   it { should have_many(:course_programs) }

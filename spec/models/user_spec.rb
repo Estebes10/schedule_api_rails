@@ -122,7 +122,7 @@ RSpec.describe User, type: :model do
     expect(user).not_to be_valid
   end
 
-  # validate association with roles
+  # test association with roles
   it { should have_many(:assignments) }
   it { should have_many(:roles).through(:assignments) }
 

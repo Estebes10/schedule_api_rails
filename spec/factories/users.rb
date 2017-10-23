@@ -1,5 +1,6 @@
 FactoryGirl.define do
 
+  # Generate a fake record for User model
   factory :user do
     name             Faker::Name.name
     last_name        Faker::Name.last_name + ' ' + Faker::Name.last_name

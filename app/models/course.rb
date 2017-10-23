@@ -4,7 +4,7 @@ class Course < ApplicationRecord
   has_many :course_programs
   has_many :study_programs, through: :course_programs
 
-  # Attributes validatation
+  # Attributes validation
   validates :name,
     presence:   true,
     length:     { maximum: 64 },

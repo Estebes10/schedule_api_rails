@@ -65,7 +65,7 @@ RSpec.describe Role, type: :model do
     expect(role).not_to be_valid
   end
 
-  # validate association with users
+  # test association with users
   it { should have_many(:assignments) }
   it { should have_many(:users).through(:assignments) }
 

@@ -1,5 +1,6 @@
 FactoryGirl.define do
 
+  # Generate a fake record of Course model
   factory :course do
     name        Faker::Educator.course
     code        Faker::University.greek_organization
