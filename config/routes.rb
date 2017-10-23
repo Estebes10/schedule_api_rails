@@ -5,4 +5,15 @@ Rails.application.routes.draw do
 
   post 'signup', to: 'users#create'
 
+  namespace :api do
+
+    namespace :v1 do
+
+      resources :study_programs,
+        only:  [:create]
+
+    end
+
+  end
+
 end

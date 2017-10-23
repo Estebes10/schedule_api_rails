@@ -37,4 +37,12 @@ class Message
     'Signature has expired'
   end
 
+  def self.record_created(record = 'record')
+    "Great, the #{record} was created successfully"
+  end
+
+  def self.record_not_created(record = 'Object requested')
+    "Sorry, the #{record} could not be created"
+  end
+
 end
