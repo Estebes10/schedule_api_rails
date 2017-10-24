@@ -9,7 +9,7 @@ RSpec.describe 'Courses API', type: :request do
   # authorize request
   let(:headers) { valid_headers }
 
-  # Test suite for POST /study_programs
+  # Test suite for POST /courses
   describe 'POST /api/v1/courses' do
 
     # valid payload
@@ -45,8 +45,18 @@ RSpec.describe 'Courses API', type: :request do
 
     context 'when the request is invalid' do
 
-      # Only one required attribute is given
-      before { post '/api/v1/courses', params: { name: 'ISC18' }.to_json, headers: headers }
+      # Not all required attributes are given
+      let(:invalid_attributes) do
+        {
+          course: {
+            name:   'Programación avanzada',
+            code:   'TC1010F',
+            status: true,
+          }
+        }.to_json
+      end
+
+      before { post '/api/v1/courses', params: invalid_attributes, headers: headers }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -54,7 +64,7 @@ RSpec.describe 'Courses API', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Code can't be blank, Units can't be blank, Class hours can't be blank, Lab hours can't be blank/)
+          .to match(/Validation failed: Units can't be blank, Class hours can't be blank, Lab hours can't be blank/)
       end
 
     end

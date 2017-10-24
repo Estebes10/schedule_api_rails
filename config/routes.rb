@@ -7,16 +7,16 @@ Rails.application.routes.draw do
   # Endpoint to create new student user
   post 'signup', to: 'users#create'
 
-  # enpoints following /api/
+  # endpoints following /api/
   namespace :api do
 
-    # enpoints following /api/v1/
+    # endpoints following /api/v1/
     namespace :v1 do
 
       resources :study_programs,
         only:  [:create]
 
-      # enpoints following /api/v1/courses
+      # endpoints following /api/v1/courses
       resources :courses,
         only: [:create]
 
