@@ -7,3 +7,6 @@ $http :3000/auth/login email=juan@example.com password=hola
 
 # How to create a new study program, to this you must use the user created before as the example above
 $ http POST :3000/api/v1/study_programs name=ISC2018 description=UnaPrueba status=1 Authorization:'CHANGE FOR THE TOKEN OF THE USER'
+
+# How to create a new course, to this you must use the user created before as the example above
+$ http POST :3000/api/v1/courses name=Etica code=TCSHJ892 description=UnaPrueba units=8 class_hours=4 lab_hours=0 status=1 Authorization:'CHANGE FOR THE TOKEN OF THE USER'
