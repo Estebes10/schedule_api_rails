@@ -18,7 +18,6 @@ RSpec.describe 'Study Programs API', type: :request do
         study_program: {
           name:          'ISC11',
           description:   'Plan de estudio para el año 2011',
-          total_courses: 64,
           status:        true,
         }
       }.to_json
@@ -51,7 +50,7 @@ RSpec.describe 'Study Programs API', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Status is not included in the list, Total courses can't be blank/)
+          .to match(/Validation failed: Status is not included in the list/)
       end
 
     end

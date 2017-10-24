@@ -25,12 +25,6 @@ RSpec.describe StudyProgram, type: :model do
     expect(study_program).not_to be_valid
   end
 
-  it 'is not valid without a total_courses' do
-    study_program.total_courses = nil
-
-    expect(study_program).not_to be_valid
-  end
-
   # Set of tests to validate the length for each attribute
   it 'is not valid if the name given contains more than 32 characters' do
     study_program.name = 'a' * 33
