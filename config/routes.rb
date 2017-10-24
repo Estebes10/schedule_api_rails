@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       resources :study_programs,
-        only:  [:create]
+        only:  [:create, :index]
 
     end
 
