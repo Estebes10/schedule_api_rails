@@ -45,4 +45,8 @@ class Message
     "Sorry, the #{record} could not be created"
   end
 
+  def self.empty
+    "No records found"
+  end
+
 end
