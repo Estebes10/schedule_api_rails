@@ -23,7 +23,6 @@ module Api::V1
         .permit(
           :name,
           :description,
-          :total_courses,
           :status,
         )
     end
