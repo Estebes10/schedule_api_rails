@@ -16,7 +16,4 @@ class StudyProgram < ApplicationRecord
   validates :status,
     inclusion: { in: [true, false] }
 
-  validates :total_courses,
-    presence: true
-
 end
