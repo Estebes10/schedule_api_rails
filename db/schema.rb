@@ -58,12 +58,11 @@ ActiveRecord::Schema.define(version: 20171020235336) do
   end
 
   create_table "study_programs", force: :cascade do |t|
-    t.string   "name",          limit: 32, null: false
-    t.string   "description",   limit: 64
-    t.integer  "total_courses",            null: false
-    t.boolean  "status",                   null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.string   "name",        limit: 32, null: false
+    t.string   "description", limit: 64
+    t.boolean  "status",                 null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.index ["name"], name: "index_study_programs_on_name", unique: true, using: :btree
   end
 
