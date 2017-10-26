@@ -7,11 +7,21 @@ class AuthenticationController < ApplicationController
   def authenticate
     auth_token =
       AuthenticateUser.new(auth_params[:email], auth_params[:password]).call
-    json_response(auth_token: auth_token)
+    # Get the user logged in
+    @current_user = User.find_by(email: auth_params[:email])
+    json_response(
+      {
+        auth_token: auth_token,
+        id:         @current_user.id,
+        role:       @current_user.role_name?,
+        id_college: @current_user.id_college,
+      }
+    )
   end
 
   private
 
+  # permit only this attributes in the login endpoint
   def auth_params
     params.permit(:email, :password)
   end

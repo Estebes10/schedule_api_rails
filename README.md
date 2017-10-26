@@ -42,6 +42,10 @@ Things you may want to cover:
       rails db:schema:dump
       rails db:migrate:reset
     ```
+  * Prepare database for test
+    ```shell
+    rails db:test:prepare
+    ```
 
 * How to run the test suite
   ```shell
