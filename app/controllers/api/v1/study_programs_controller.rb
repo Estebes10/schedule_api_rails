@@ -2,6 +2,19 @@ module Api::V1
 
   class StudyProgramsController < ApplicationController
 
+    def index
+      # Get all study programs
+      @study_programs = StudyProgram.all
+
+      # returns all studyPrograms objects
+      if @study_programs
+          json_response(@study_programs)
+      # returns errors if exists problems
+      else
+        json_response(@study_programs, :unprocessable_entity)
+      end
+    end
+
     def create
 
       if @study_program = StudyProgram.create!(creation_attributes)
@@ -23,7 +36,6 @@ module Api::V1
         .permit(
           :name,
           :description,
-          :total_courses,
           :status,
         )
     end
