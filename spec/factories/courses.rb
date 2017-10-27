@@ -2,9 +2,9 @@ FactoryGirl.define do
 
   # Generate a fake record of Course model
   factory :course do
-    name        Faker::Educator.course
-    code        Faker::University.greek_organization
-    description Faker::Lorem.words(10)
+    sequence(:name) { |n| "#{Faker::Educator.course}#{n}" }
+    sequence(:code) { |n| "#{Faker::University.greek_organization}#{n}" }
+    description Faker::Lorem.sentence(4)
     units       Faker::Number.between(3, 15)
     class_hours Faker::Number.between(1, 10)
     lab_hours   Faker::Number.between(1, 10)
