@@ -2,6 +2,19 @@ module Api::V1
 
   class CoursesController < ApplicationController
 
+    def index
+      # Get all courses
+      @courses = Course.all
+
+      # returns all Course objects
+      if @courses
+          json_response(@courses)
+      # returns errors if exists problems
+      else
+        json_response(@courses, :unprocessable_entity)
+      end
+    end
+
     def create
 
       if @course = Course.create!(creation_attributes)
