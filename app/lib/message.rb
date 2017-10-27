@@ -49,4 +49,8 @@ class Message
     "No records found"
   end
 
+  def self.record_updated(record = 'record')
+    "The #{record} was updated successfully"
+  end
+
 end
