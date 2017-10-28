@@ -3,7 +3,7 @@ module Api::V1
   class StudyProgramsController < ApplicationController
 
     before_action :set_study_program,
-      only: :update
+      only: [:update, :destroy]
 
     def index
       # Get all study programs
@@ -45,6 +45,17 @@ module Api::V1
         end
       else
         json_response(@study, :not_found)
+      end
+    end
+
+    # DELETE /study_programs/:id
+    def destroy
+      if @study
+        if @study.destroy
+          head :ok
+        end
+      else
+        head :not_found
       end
     end
 
