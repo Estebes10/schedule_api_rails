@@ -53,6 +53,10 @@ RSpec.describe StudyProgram, type: :model do
   it { should have_many(:courses).through(:course_programs) }
 
   it 'has many students'
-  it 'belongs to career'
+
+  it "belongs to career" do
+    assc = described_class.reflect_on_association(:career)
+    expect(assc.macro).to eq(:belongs_to)
+  end
 
 end
