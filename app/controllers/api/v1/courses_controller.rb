@@ -63,6 +63,7 @@ module Api::V1
         )
     end
 
+    # Get the course with the ID sent in the request
     def get_course
       @course = Course.find(params[:id])
     end

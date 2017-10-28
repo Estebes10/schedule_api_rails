@@ -128,6 +128,7 @@ RSpec.describe 'Courses API', type: :request do
   # Test suite for PUT /api/v1/courses/:id
   describe 'PUT /api/v1/courses/:id' do
 
+    # Set of valid attributes to change one record of courses
     let(:valid_attributes) do
       {
         course: {
@@ -173,6 +174,8 @@ RSpec.describe 'Courses API', type: :request do
     end
 
     context 'when attributes are not valid' do
+
+      # testing sent an empty name
       before { put "/api/v1/courses/#{course_id}", params: { name: nil }.to_json, headers: headers }
 
       it 'returns status code 422' do
