@@ -155,6 +155,7 @@ RSpec.describe 'Study Programs API', type: :request do
     end
 
     context 'when attributes are not valid' do
+
       before { put "/api/v1/study_programs/#{study_id}", params: { name: nil }.to_json, headers: headers }
 
       it 'returns status code 422' do
@@ -176,7 +177,7 @@ RSpec.describe 'Study Programs API', type: :request do
       # Use an ID not valid
       let(:study_id_false) { 100 }
 
-      before { put "/api/v1/study_programs/#{study_id_false}", params: valid_attributes, headers: headers}
+      before { put "/api/v1/study_programs/#{study_id_false}", params: valid_attributes, headers: headers }
 
       it "not updates the record" do
         expect(@study.name).not_to eq('ISDR20')
@@ -188,6 +189,40 @@ RSpec.describe 'Study Programs API', type: :request do
 
       it 'returns a not found message' do
         expect(response.body).to match(/Couldn't find StudyProgram with 'id'=#{study_id_false}/)
+      end
+
+    end
+
+  end
+
+  # Test suite for DELETE /study_programs/:id
+  describe 'DELETE /api/v1/study_programs/:id' do
+
+    context 'when record found' do
+
+      before(:each) do
+        delete "/api/v1/study_programs/#{study_id}", params: {}, headers: headers
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'reduce the records of the study_programs table' do
+        expect(StudyProgram.count).to eq(@total - 1)
+      end
+
+    end
+
+    context 'when record not found' do
+
+      # Use an ID not valid
+      let(:study_id_false) { 1000 }
+
+      before { delete "/api/v1/study_programs/#{study_id_false}", params: {}, headers: headers }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(:not_found)
       end
 
     end
