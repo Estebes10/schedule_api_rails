@@ -9,6 +9,56 @@ RSpec.describe 'Courses API', type: :request do
   # authorize request
   let(:headers) { valid_headers }
 
+  # Initialize 40 records of courses
+  before(:each) do
+    @total = 40
+  end
+
+  let!(:courses) { create_list(:course, @total) }
+
+  # Test suite for GET /api/v1/courses
+  describe 'GET /api/v1/courses' do
+
+    context 'when courses exist' do
+
+      # make HTTP get request before each example
+      before { get '/api/v1/courses', params: {}, headers: headers}
+
+      it 'returns courses' do
+        expect(json).not_to be_empty
+      end
+
+      it 'return 40 records' do
+        expect(json.size).to eq(@total)
+      end
+
+      it 'returns ok status' do
+        expect(response).to have_http_status(200)
+      end
+
+    end
+
+    context 'when courses does not exist' do
+
+      before(:each) do
+        Course.destroy_all
+      end
+
+      # make HTTP get request before each example
+      before { get '/api/v1/courses', params: {}, headers: headers}
+
+      it 'not returns courses' do
+        expect(json).to be_empty
+      end
+
+      it 'returns an unprocessable entity status' do
+        expect(response).to have_http_status(200)
+      end
+
+    end
+
+  end
+
   # Test suite for POST /courses
   describe 'POST /api/v1/courses' do
 

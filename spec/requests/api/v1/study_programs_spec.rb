@@ -6,7 +6,7 @@ RSpec.describe 'Study Programs API', type: :request do
   # create a user to test
   let(:user) { create(:user) }
 
-  # Initialize 10 records of courses
+  # Initialize 10 records of study programs
   before(:each) do
     @total = 10
   end
