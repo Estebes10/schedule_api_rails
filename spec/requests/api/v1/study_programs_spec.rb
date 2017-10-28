@@ -6,13 +6,15 @@ RSpec.describe 'Study Programs API', type: :request do
   # create a user to test
   let(:user) { create(:user) }
 
+  let!(:career) { create(:career) }
+
   # Initialize 10 records of study programs
   before(:each) do
     @total = 10
   end
 
   # Create a list of study programs
-  let!(:study_programs) { create_list(:study_program, @total) }
+  let!(:study_programs) { create_list(:study_program, @total, career_id: career.id) }
 
   # Use the first element of StudyProgram
   let(:study_id) { study_programs.first.id }
@@ -74,6 +76,7 @@ RSpec.describe 'Study Programs API', type: :request do
           name:          'ISC11',
           description:   'Plan de estudio para el año 2011',
           status:        true,
+          career_id:     career.id,
         }
       }.to_json
     end
@@ -105,7 +108,7 @@ RSpec.describe 'Study Programs API', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Status is not included in the list/)
+          .to match(/Validation failed: Career must exist, Status is not included in the list/)
       end
 
     end
