@@ -2,6 +2,9 @@ module Api::V1
 
   class StudyProgramsController < ApplicationController
 
+    before_action :set_study_program,
+      only: :update
+
     def index
       # Get all study programs
       @study_programs = StudyProgram.all
@@ -29,6 +32,22 @@ module Api::V1
 
     end
 
+    def update
+      if @study
+        if @study.update(creation_attributes)
+          response = {
+            message: Message.record_updated(@study.class.name),
+            study_program: @study,
+          }
+          json_response(response)
+        else
+          json_response(@study, :unprocessable_entity)
+        end
+      else
+        json_response(@study, :not_found)
+      end
+    end
+
     private
 
     def creation_attributes
@@ -38,6 +57,10 @@ module Api::V1
           :description,
           :status,
         )
+    end
+
+    def set_study_program
+      @study = StudyProgram.find(params[:id])
     end
 
   end

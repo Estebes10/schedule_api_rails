@@ -11,7 +11,11 @@ RSpec.describe 'Study Programs API', type: :request do
     @total = 10
   end
 
+  # Create a list of study programs
   let!(:study_programs) { create_list(:study_program, @total) }
+
+  # Use the first element of StudyProgram
+  let(:study_id) { study_programs.first.id }
 
   # authorize request
   let(:headers) { valid_headers }
@@ -102,6 +106,88 @@ RSpec.describe 'Study Programs API', type: :request do
       it 'returns a validation failure message' do
         expect(response.body)
           .to match(/Validation failed: Status is not included in the list/)
+      end
+
+    end
+
+  end
+
+  # Test suite for PUT /study_programs/:id
+  describe 'PUT /api/v1/study_programs/:id' do
+
+    let(:valid_attributes) do
+      {
+        study_program: {
+          name:          'ISDR20',
+          description:   'Plan de estudio para el año 2020',
+          status:        true,
+        }
+      }.to_json
+    end
+
+    before(:each) do
+      @study = study_programs.first
+    end
+
+    context 'when the record exists' do
+
+      before { put "/api/v1/study_programs/#{study_id}", params: valid_attributes, headers: headers }
+
+      it "contains the new name" do
+        @study.reload
+        expect(@study.name).to eq('ISDR20')
+      end
+
+      it "contains the new description" do
+        @study.reload
+        expect(@study.description).to eq('Plan de estudio para el año 2020')
+      end
+
+      it "contains the new status" do
+        @study.reload
+        expect(@study.status).to eq(true)
+      end
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status(:ok)
+      end
+
+    end
+
+    context 'when attributes are not valid' do
+      before { put "/api/v1/study_programs/#{study_id}", params: { name: nil }.to_json, headers: headers }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it "not contains the new name" do
+        expect(@study.name).not_to eq('ISDR20')
+      end
+
+      it "not contains the new description" do
+        expect(@study.description).not_to eq('Plan de estudio para el año 2020')
+      end
+
+    end
+
+    context 'when the record does not exist' do
+
+      # Use an ID not valid
+      let(:study_id_false) { 100 }
+
+      before { put "/api/v1/study_programs/#{study_id_false}", params: valid_attributes, headers: headers}
+
+      it "not updates the record" do
+        expect(@study.name).not_to eq('ISDR20')
+      end
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns a not found message' do
+        expect(response.body).to match(/Couldn't find StudyProgram with 'id'=#{study_id_false}/)
       end
 
     end
