@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       resources :study_programs,
-        only:  [:create, :index, :update]
+        only:  [:create, :index, :update, :destroy]
 
       # endpoints following /api/v1/courses
       resources :courses,
