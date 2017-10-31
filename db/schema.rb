@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171020235336) do
+ActiveRecord::Schema.define(version: 20171028052213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,17 @@ ActiveRecord::Schema.define(version: 20171020235336) do
     t.datetime "updated_at", null: false
     t.index ["role_id"], name: "index_assignments_on_role_id", using: :btree
     t.index ["user_id"], name: "index_assignments_on_user_id", using: :btree
+  end
+
+  create_table "careers", force: :cascade do |t|
+    t.string   "name",        limit: 64,                 null: false
+    t.string   "code",        limit: 32,                 null: false
+    t.string   "description", limit: 512
+    t.boolean  "status",                  default: true, null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.index ["code"], name: "index_careers_on_code", unique: true, using: :btree
+    t.index ["name"], name: "index_careers_on_name", unique: true, using: :btree
   end
 
   create_table "course_programs", force: :cascade do |t|
@@ -58,11 +69,13 @@ ActiveRecord::Schema.define(version: 20171020235336) do
   end
 
   create_table "study_programs", force: :cascade do |t|
+    t.integer  "career_id"
     t.string   "name",        limit: 32, null: false
     t.string   "description", limit: 64
     t.boolean  "status",                 null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.index ["career_id"], name: "index_study_programs_on_career_id", using: :btree
     t.index ["name"], name: "index_study_programs_on_name", unique: true, using: :btree
   end
 

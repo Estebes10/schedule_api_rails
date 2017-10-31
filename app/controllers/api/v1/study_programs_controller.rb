@@ -3,7 +3,7 @@ module Api::V1
   class StudyProgramsController < ApplicationController
 
     before_action :set_study_program,
-      only: :update
+      only: [:update, :destroy]
 
     def index
       # Get all study programs
@@ -48,6 +48,17 @@ module Api::V1
       end
     end
 
+    # DELETE /study_programs/:id
+    def destroy
+      if @study
+        if @study.destroy
+          head :ok
+        end
+      else
+        head :not_found
+      end
+    end
+
     private
 
     def creation_attributes
@@ -56,6 +67,7 @@ module Api::V1
           :name,
           :description,
           :status,
+          :career_id,
         )
     end
 
