@@ -210,4 +210,37 @@ RSpec.describe 'Courses API', type: :request do
 
   end
 
+  # Test suite for DELETE /courses/:id
+  describe 'DELETE /api/v1/courses/:id' do
+    context 'when record exists' do
+
+      before(:each) do
+        delete "/api/v1/courses/#{course_id}", params: {}, headers: headers
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'reduce the records of the courses table' do
+        expect(Course.count).to eq(@total - 1)
+      end
+
+    end
+
+   context 'when record not found' do
+
+     # Use an ID not valid
+    let(:course_id_false) { 1000 }
+
+    before { delete "/api/v1/courses/#{course_id_false}", params: {}, headers: headers }
+
+    it 'returns status code 404' do
+      expect(response).to have_http_status(:not_found)
+    end
+
+    end
+
+  end
+
 end
