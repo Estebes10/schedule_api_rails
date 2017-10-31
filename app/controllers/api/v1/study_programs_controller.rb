@@ -67,6 +67,7 @@ module Api::V1
           :name,
           :description,
           :status,
+          :career_id,
         )
     end
 
