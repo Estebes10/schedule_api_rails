@@ -69,15 +69,13 @@ RSpec.describe 'Courses API', type: :request do
     # valid payload
     let(:valid_attributes) do
       {
-        course: {
-          name:        'Programación avanzada',
-          code:        'TC1010F',
-          description: 'Materia para programar de Pedro XD',
-          units:       8,
-          class_hours: 3,
-          lab_hours:   0,
-          status:      true,
-        }
+        name:        'Programación avanzada',
+        code:        'TC1010F',
+        description: 'Materia para programar de Pedro XD',
+        units:       8,
+        class_hours: 3,
+        lab_hours:   0,
+        status:      true,
       }.to_json
     end
 
@@ -102,11 +100,9 @@ RSpec.describe 'Courses API', type: :request do
       # Not all required attributes are given
       let(:invalid_attributes) do
         {
-          course: {
-            name:   'Programación avanzada',
-            code:   'TC1010F',
-            status: true,
-          }
+          name:   Faker::Educator.course,
+          code:   'TC1010F',
+          status: true,
         }.to_json
       end
 
@@ -131,15 +127,13 @@ RSpec.describe 'Courses API', type: :request do
     # Set of valid attributes to change one record of courses
     let(:valid_attributes) do
       {
-        course: {
-          name:        'Microcontroladores',
-          code:        'TC10482D',
-          description: 'In this course will show new things',
-          units:       15,
-          class_hours: 5,
-          lab_hours:   1,
-          status:      true,
-        }
+        name:        'Microcontroladores',
+        code:        'TC10482D',
+        description: 'In this course will show new things',
+        units:       15,
+        class_hours: 5,
+        lab_hours:   1,
+        status:      true,
       }.to_json
     end
 

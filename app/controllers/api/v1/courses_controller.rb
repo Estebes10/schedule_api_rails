@@ -51,16 +51,15 @@ module Api::V1
     private
 
     def creation_attributes
-      params.require(:course)
-        .permit(
-          :name,
-          :code,
-          :description,
-          :units,
-          :class_hours,
-          :lab_hours,
-          :status,
-        )
+      params.permit(
+        :name,
+        :code,
+        :description,
+        :units,
+        :class_hours,
+        :lab_hours,
+        :status,
+      )
     end
 
     # Get the course with the ID sent in the request
