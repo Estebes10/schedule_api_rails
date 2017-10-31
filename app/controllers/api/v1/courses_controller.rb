@@ -2,6 +2,9 @@ module Api::V1
 
   class CoursesController < ApplicationController
 
+    before_action :get_course,
+      only: :update
+
     def index
       # Get all courses
       @courses = Course.all
@@ -29,19 +32,39 @@ module Api::V1
 
     end
 
+    def update
+      if @course
+        if @course.update(creation_attributes)
+          response = {
+            message: Message.record_updated(@course.class.name),
+            course: @course,
+          }
+          json_response(response)
+        else
+          json_response(@course, :unprocessable_entity)
+        end
+      else
+        json_response(@course, :not_found)
+      end
+    end
+
     private
 
     def creation_attributes
-      params.require(:course)
-        .permit(
-          :name,
-          :code,
-          :description,
-          :units,
-          :class_hours,
-          :lab_hours,
-          :status,
-        )
+      params.permit(
+        :name,
+        :code,
+        :description,
+        :units,
+        :class_hours,
+        :lab_hours,
+        :status,
+      )
+    end
+
+    # Get the course with the ID sent in the request
+    def get_course
+      @course = Course.find(params[:id])
     end
 
   end
