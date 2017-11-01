@@ -3,7 +3,7 @@ module Api::V1
   class CoursesController < ApplicationController
 
     before_action :get_course,
-      only: :update
+      only: [:update, :destroy]
 
     def index
       # Get all courses
@@ -45,6 +45,16 @@ module Api::V1
         end
       else
         json_response(@course, :not_found)
+      end
+    end
+
+    def destroy
+      if @course
+        if @course.destroy
+          head :ok
+        end
+      else
+        head :not_found
       end
     end
 
