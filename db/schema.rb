@@ -37,13 +37,15 @@ ActiveRecord::Schema.define(version: 20171102014036) do
   end
 
   create_table "careers", force: :cascade do |t|
-    t.string   "name",        limit: 64,                 null: false
-    t.string   "code",        limit: 32,                 null: false
-    t.string   "description", limit: 512
-    t.boolean  "status",                  default: true, null: false
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.integer  "department_id"
+    t.string   "name",          limit: 64,                 null: false
+    t.string   "code",          limit: 32,                 null: false
+    t.string   "description",   limit: 512
+    t.boolean  "status",                    default: true, null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.index ["code"], name: "index_careers_on_code", unique: true, using: :btree
+    t.index ["department_id"], name: "index_careers_on_department_id", using: :btree
     t.index ["name"], name: "index_careers_on_name", unique: true, using: :btree
   end
 
