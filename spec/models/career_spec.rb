@@ -32,8 +32,8 @@ RSpec.describe Career, type: :model do
   end
 
   # Set of tests to validate the length for each attribute
-  it 'is not valid if the name given contains more than 64 characters' do
-    career.name = 'a' * 65
+  it 'is not valid if the name given contains more than 128 characters' do
+    career.name = 'a' * 129
 
     expect(career).not_to be_valid
   end

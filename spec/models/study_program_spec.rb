@@ -26,14 +26,14 @@ RSpec.describe StudyProgram, type: :model do
   end
 
   # Set of tests to validate the length for each attribute
-  it 'is not valid if the name given contains more than 32 characters' do
-    study_program.name = 'a' * 33
+  it 'is not valid if the name given contains more than 128 characters' do
+    study_program.name = 'a' * 129
 
     expect(study_program).not_to be_valid
   end
 
-  it 'is not valid if the description given contains more than 64 characters' do
-    study_program.description = 'a' * 65
+  it 'is not valid if the description given contains more than 512 characters' do
+    study_program.description = 'a' * 513
 
     expect(study_program).not_to be_valid
   end

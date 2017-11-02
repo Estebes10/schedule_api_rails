@@ -38,14 +38,14 @@ RSpec.describe Department, type: :model do
   end
 
   # Set of tests to validate the length for each attribute
-  it 'is not valid if the name given contains more than 64 characters' do
-    department.name = 'a' * 65
+  it 'is not valid if the name given contains more than 128 characters' do
+    department.name = 'a' * 129
 
     expect(department).not_to be_valid
   end
 
-  it 'is not valid if the code given contains more than 16 characters' do
-    department.code = 'a' * 17
+  it 'is not valid if the code given contains more than 32 characters' do
+    department.code = 'a' * 33
 
     expect(department).not_to be_valid
   end

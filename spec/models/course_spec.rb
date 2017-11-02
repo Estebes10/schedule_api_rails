@@ -51,8 +51,8 @@ RSpec.describe Course, type: :model do
   end
 
   # Set of tests to validate the length for each attribute
-  it 'is not valid if the name given contains more than 64 characters' do
-    course.name = 'a' * 65
+  it 'is not valid if the name given contains more than 128 characters' do
+    course.name = 'a' * 129
 
     expect(course).not_to be_valid
   end
@@ -63,8 +63,8 @@ RSpec.describe Course, type: :model do
     expect(course).not_to be_valid
   end
 
-  it 'is not valid if the description given contains more than 128 characters' do
-    course.description = 'a' * 129
+  it 'is not valid if the description given contains more than 512 characters' do
+    course.description = 'a' * 513
 
     expect(course).not_to be_valid
   end

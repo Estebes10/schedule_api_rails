@@ -9,7 +9,7 @@ class Career < ApplicationRecord
   validates :name,
     uniqueness: true,
     presence:   true,
-    length:     { maximum: 64 }
+    length:     { maximum: 128 }
 
   validates :code,
     uniqueness: true,

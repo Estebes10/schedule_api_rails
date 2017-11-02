@@ -69,14 +69,14 @@ RSpec.describe User, type: :model do
   end
 
   # Set of tests to validate the length for each attribute
-  it 'is not valid if the name given contains more than 64 characters' do
-    user.name = 'a' * 65
+  it 'is not valid if the name given contains more than 128 characters' do
+    user.name = 'a' * 129
 
     expect(user).not_to be_valid
   end
 
-  it 'is not valid if the last_name given contains more than 64 characters' do
-    user.last_name = 'a' * 65
+  it 'is not valid if the last_name given contains more than 128 characters' do
+    user.last_name = 'a' * 129
 
     expect(user).not_to be_valid
   end

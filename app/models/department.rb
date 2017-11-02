@@ -8,12 +8,12 @@ class Department < ApplicationRecord
   # validate attributes
   validates :name,
     presence:   true,
-    length:     { maximum: 64 },
+    length:     { maximum: 128 },
     uniqueness: true
 
   validates :code,
     presence:   true,
-    length:     { maximum: 16 },
+    length:     { maximum: 32 },
     uniqueness: true
 
   validates :description,

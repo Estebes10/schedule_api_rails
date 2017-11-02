@@ -14,11 +14,11 @@ class Role < ApplicationRecord
 
   validates :name,
     presence:  true,
-    length:    { maximum: 32 }
+    length:    { maximum: 128 }
 
   validates :description,
     presence: true,
-    length:   { maximum: 64 }
+    length:   { maximum: 512 }
 
   validates :status,
     inclusion: { in: [true, false] }

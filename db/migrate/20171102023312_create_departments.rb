@@ -2,11 +2,11 @@ class CreateDepartments < ActiveRecord::Migration[5.0]
 
   def change
     create_table :departments do |t|
-      t.string     :name,        limit: 64, null: false
-      t.string     :code,        limit: 16, null: false
+      t.string     :name,        limit: 128, null: false
+      t.string     :code,        limit: 32,  null: false
       t.string     :description, limit: 512
-      t.boolean    :status,                 null: false
-      t.references :campu,                              foreign_key: true
+      t.boolean    :status,                  null: false
+      t.references :campu,                               foreign_key: true
 
       t.timestamps
     end

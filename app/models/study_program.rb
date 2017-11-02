@@ -11,11 +11,11 @@ class StudyProgram < ApplicationRecord
   # Attributes validation
   validates :name,
     presence:   true,
-    length:     { maximum: 32 },
+    length:     { maximum: 128 },
     uniqueness: true
 
   validates :description,
-    length: { maximum: 64 }
+    length: { maximum: 512 }
 
   validates :status,
     inclusion: { in: [true, false] }

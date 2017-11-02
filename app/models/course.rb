@@ -9,7 +9,7 @@ class Course < ApplicationRecord
   # Attributes validation
   validates :name,
     presence:   true,
-    length:     { maximum: 64 },
+    length:     { maximum: 128 },
     uniqueness: true
 
   validates :code,
@@ -18,7 +18,7 @@ class Course < ApplicationRecord
     uniqueness: true
 
   validates :description,
-    length: { maximum: 128 }
+    length: { maximum: 512 }
 
   validates :units,
     presence: true

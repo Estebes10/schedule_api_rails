@@ -12,11 +12,11 @@ class User < ApplicationRecord
   # Attributes validation
   validates :name,
     presence: true,
-    length:   { maximum: 64 }
+    length:   { maximum: 128 }
 
   validates :last_name,
     presence: true,
-    length:   { maximum: 64 }
+    length:   { maximum: 128 }
 
   validates :id_college,
     presence: true,

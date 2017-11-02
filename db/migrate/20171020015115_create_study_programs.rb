@@ -2,10 +2,10 @@ class CreateStudyPrograms < ActiveRecord::Migration[5.0]
 
   def change
     create_table :study_programs do |t|
-      t.belongs_to :career,                              index: true
-      t.string     :name,         limit: 32, null: false
-      t.string     :description,  limit: 64
-      t.boolean    :status,                  null: false
+      t.belongs_to :career,                               index: true
+      t.string     :name,         limit: 128, null: false
+      t.string     :description,  limit: 512
+      t.boolean    :status,                   null: false
 
       t.timestamps
     end
