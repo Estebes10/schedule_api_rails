@@ -15,6 +15,29 @@ module Api::V1
       end
     end
 
+    def create
+      if @career = Career.create!(creation_attributes)
+        response = {
+          message: Message.record_created(@career.class.name),
+          career: @career
+        }
+        json_response(response, :created)
+      else
+        json_response(@career, :unprocessable_entity)
+      end
+    end
+
+    private
+
+    def creation_attributes
+      params.permit(
+        :name,
+        :code,
+        :description,
+        :status,
+      )
+    end
+
   end
 
 end
