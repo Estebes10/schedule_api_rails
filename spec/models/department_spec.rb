@@ -8,7 +8,7 @@ RSpec.describe Department, type: :model do
   end
 
   # Test for all valid attributes are given
-  it 'is valid if the name, description, campus_id, code and status are given ' do
+  it 'is valid if the name, description, campu_id, code and status are given ' do
     expect(department).to be_valid
   end
 
@@ -20,7 +20,7 @@ RSpec.describe Department, type: :model do
   end
 
   it 'is not valid without the campus_id' do
-    department.campus_id = nil
+    department.campu_id = nil
 
     expect(department).not_to be_valid
   end
@@ -75,7 +75,10 @@ RSpec.describe Department, type: :model do
 
   # test associations
 
-  it 'has_many careers'
-  it 'belongs to campus'
+  # Association with career
+  it { should have_many(:careers) }
+
+  # Association with campus
+  it { should belong_to(:campu) }
 
 end

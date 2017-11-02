@@ -83,6 +83,6 @@ RSpec.describe Campu, type: :model do
   # test associations
 
   # validate association with study programs
-  it 'has_many departments'
+  it { should have_many(:departments) }
 
 end
