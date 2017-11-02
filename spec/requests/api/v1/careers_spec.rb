@@ -55,7 +55,7 @@ RSpec.describe 'careers API', type: :request do
       end
 
       it 'returns an unprocessable entity status' do
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(422)
       end
 
     end
