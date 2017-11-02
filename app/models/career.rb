@@ -3,6 +3,8 @@ class Career < ApplicationRecord
   # Associations
   has_many :study_programs
 
+  belongs_to :department
+
   # Attributes validation
   validates :name,
     uniqueness: true,

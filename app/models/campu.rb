@@ -1,5 +1,9 @@
 class Campu < ApplicationRecord
 
+  # Associations
+  has_many :departments
+
+  # Attributes validation
   validates :name,
     uniqueness: true,
     presence:   true,

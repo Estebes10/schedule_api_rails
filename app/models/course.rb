@@ -2,7 +2,9 @@ class Course < ApplicationRecord
 
   # Associations
   has_many :course_programs
-  has_many :study_programs, through: :course_programs
+
+  has_many :study_programs,
+    through: :course_programs
 
   # Attributes validation
   validates :name,
