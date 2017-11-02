@@ -5,6 +5,9 @@ RSpec.describe 'careers API', type: :request do
   # create a user to test
   let(:user) { create(:user) }
 
+  # create deparment
+  let(:department) { create(:department) }
+
   # authorize request
   let(:headers) { valid_headers }
 
@@ -14,7 +17,7 @@ RSpec.describe 'careers API', type: :request do
   end
 
   # create a list of 10 careers
-  let!(:careers) { create_list(:career, @total) }
+  let!(:careers) { create_list(:career, @total, department_id: department.id) }
 
   # Test suite for GET /api/v1/careers
   describe 'GET /api/v1/careers' do
@@ -69,6 +72,7 @@ RSpec.describe 'careers API', type: :request do
         code:        'ISC',
         description: 'Esta es una carrera impartida en el campus querétaro',
         status:      true,
+        department_id: department.id,
       }.to_json
     end
 
@@ -116,7 +120,7 @@ RSpec.describe 'careers API', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Code can't be blank/)
+          .to match(/Validation failed: Department must exist, Code can't be blank/)
       end
 
     end
