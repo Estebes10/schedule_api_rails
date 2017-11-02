@@ -38,14 +38,14 @@ RSpec.describe Campu, type: :model do
   end
 
   # Set of tests to validate the length for each attribute
-  it 'is not valid if the name given contains more than 64 characters' do
-    campus.name = 'a' * 65
+  it 'is not valid if the name given contains more than 128 characters' do
+    campus.name = 'a' * 129
 
     expect(campus).not_to be_valid
   end
 
-  it 'is not valid if the code given contains more than 16 characters' do
-    campus.code = 'a' * 17
+  it 'is not valid if the code given contains more than 32 characters' do
+    campus.code = 'a' * 33
 
     expect(campus).not_to be_valid
   end
@@ -83,6 +83,6 @@ RSpec.describe Campu, type: :model do
   # test associations
 
   # validate association with study programs
-  it 'has_many departments'
+  it { should have_many(:departments) }
 
 end

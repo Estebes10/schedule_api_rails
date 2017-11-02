@@ -32,8 +32,8 @@ RSpec.describe Career, type: :model do
   end
 
   # Set of tests to validate the length for each attribute
-  it 'is not valid if the name given contains more than 64 characters' do
-    career.name = 'a' * 65
+  it 'is not valid if the name given contains more than 128 characters' do
+    career.name = 'a' * 129
 
     expect(career).not_to be_valid
   end
@@ -73,8 +73,10 @@ RSpec.describe Career, type: :model do
   # validate association with study programs
   it { should have_many(:study_programs) }
 
+  # association with deparment
+  it { should belong_to(:department) }
+
   it 'has_many Students'
   it 'has_one Career Director'
-  it 'belongs to departement'
 
 end

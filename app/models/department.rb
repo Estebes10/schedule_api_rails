@@ -1,17 +1,19 @@
-class StudyProgram < ApplicationRecord
+class Department < ApplicationRecord
 
   # Associations
-  has_many :course_programs
+  belongs_to :campu
 
-  has_many :courses,
-    through: :course_programs
+  has_many :careers
 
-  belongs_to :career
-
-  # Attributes validation
+  # validate attributes
   validates :name,
     presence:   true,
     length:     { maximum: 128 },
+    uniqueness: true
+
+  validates :code,
+    presence:   true,
+    length:     { maximum: 32 },
     uniqueness: true
 
   validates :description,

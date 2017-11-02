@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171102014036) do
+ActiveRecord::Schema.define(version: 20171102023312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,8 +25,8 @@ ActiveRecord::Schema.define(version: 20171102014036) do
   end
 
   create_table "campus", force: :cascade do |t|
-    t.string   "name",        limit: 64,  null: false
-    t.string   "code",        limit: 16,  null: false
+    t.string   "name",        limit: 128, null: false
+    t.string   "code",        limit: 32,  null: false
     t.string   "description", limit: 512
     t.string   "state",       limit: 64,  null: false
     t.boolean  "status",                  null: false
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20171102014036) do
 
   create_table "careers", force: :cascade do |t|
     t.integer  "department_id"
-    t.string   "name",          limit: 64,                 null: false
+    t.string   "name",          limit: 128,                null: false
     t.string   "code",          limit: 32,                 null: false
     t.string   "description",   limit: 512
     t.boolean  "status",                    default: true, null: false
@@ -59,9 +59,9 @@ ActiveRecord::Schema.define(version: 20171102014036) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string   "name",        limit: 64,                 null: false
+    t.string   "name",        limit: 128,                null: false
     t.string   "code",        limit: 16,                 null: false
-    t.string   "description", limit: 128
+    t.string   "description", limit: 512
     t.integer  "units",                                  null: false
     t.integer  "class_hours",                            null: false
     t.integer  "lab_hours",                              null: false
@@ -72,39 +72,52 @@ ActiveRecord::Schema.define(version: 20171102014036) do
     t.index ["name"], name: "index_courses_on_name", unique: true, using: :btree
   end
 
+  create_table "departments", force: :cascade do |t|
+    t.string   "name",        limit: 128, null: false
+    t.string   "code",        limit: 32,  null: false
+    t.string   "description", limit: 512
+    t.boolean  "status",                  null: false
+    t.integer  "campu_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["campu_id"], name: "index_departments_on_campu_id", using: :btree
+    t.index ["code"], name: "index_departments_on_code", unique: true, using: :btree
+    t.index ["name"], name: "index_departments_on_name", unique: true, using: :btree
+  end
+
   create_table "roles", force: :cascade do |t|
-    t.string   "code",        limit: 32, null: false
-    t.string   "name",        limit: 32, null: false
-    t.string   "description", limit: 64, null: false
-    t.boolean  "status",                 null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "code",        limit: 32,  null: false
+    t.string   "name",        limit: 128, null: false
+    t.string   "description", limit: 512, null: false
+    t.boolean  "status",                  null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.index ["code"], name: "index_roles_on_code", unique: true, using: :btree
   end
 
   create_table "study_programs", force: :cascade do |t|
     t.integer  "career_id"
-    t.string   "name",        limit: 32, null: false
-    t.string   "description", limit: 64
-    t.boolean  "status",                 null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name",        limit: 128, null: false
+    t.string   "description", limit: 512
+    t.boolean  "status",                  null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.index ["career_id"], name: "index_study_programs_on_career_id", using: :btree
     t.index ["name"], name: "index_study_programs_on_name", unique: true, using: :btree
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name",            limit: 64, null: false
-    t.string   "last_name",       limit: 64, null: false
-    t.string   "id_college",      limit: 16, null: false
-    t.string   "password_digest",            null: false
-    t.string   "email",           limit: 64, null: false
-    t.string   "phone",           limit: 32, null: false
-    t.string   "gender",          limit: 16, null: false
-    t.date     "birthday",                   null: false
-    t.boolean  "status",                     null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.string   "name",            limit: 128, null: false
+    t.string   "last_name",       limit: 128, null: false
+    t.string   "id_college",      limit: 16,  null: false
+    t.string   "password_digest",             null: false
+    t.string   "email",           limit: 64,  null: false
+    t.string   "phone",           limit: 32,  null: false
+    t.string   "gender",          limit: 16,  null: false
+    t.date     "birthday",                    null: false
+    t.boolean  "status",                      null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
@@ -112,4 +125,5 @@ ActiveRecord::Schema.define(version: 20171102014036) do
   add_foreign_key "assignments", "users"
   add_foreign_key "course_programs", "courses"
   add_foreign_key "course_programs", "study_programs"
+  add_foreign_key "departments", "campus"
 end

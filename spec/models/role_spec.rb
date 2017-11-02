@@ -44,14 +44,14 @@ RSpec.describe Role, type: :model do
     expect(role).not_to be_valid
   end
 
-  it 'is not valid if the name given contains more than 32 characters' do
-    role.name = 'a' * 33
+  it 'is not valid if the name given contains more than 128 characters' do
+    role.name = 'a' * 129
 
     expect(role).not_to be_valid
   end
 
-  it 'is not valid if the description given contains more than 64 characters' do
-    role.description = 'a' * 65
+  it 'is not valid if the description given contains more than 512 characters' do
+    role.description = 'a' * 513
 
     expect(role).not_to be_valid
   end
