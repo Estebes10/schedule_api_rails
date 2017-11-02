@@ -35,6 +35,7 @@ module Api::V1
         :code,
         :description,
         :status,
+        :department_id,
       )
     end
 
