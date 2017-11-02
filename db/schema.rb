@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171028052213) do
+ActiveRecord::Schema.define(version: 20171102014036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,14 +24,28 @@ ActiveRecord::Schema.define(version: 20171028052213) do
     t.index ["user_id"], name: "index_assignments_on_user_id", using: :btree
   end
 
-  create_table "careers", force: :cascade do |t|
-    t.string   "name",        limit: 64,                 null: false
-    t.string   "code",        limit: 32,                 null: false
+  create_table "campus", force: :cascade do |t|
+    t.string   "name",        limit: 64,  null: false
+    t.string   "code",        limit: 16,  null: false
     t.string   "description", limit: 512
-    t.boolean  "status",                  default: true, null: false
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.string   "state",       limit: 64,  null: false
+    t.boolean  "status",                  null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.index ["code"], name: "index_campus_on_code", unique: true, using: :btree
+    t.index ["name"], name: "index_campus_on_name", unique: true, using: :btree
+  end
+
+  create_table "careers", force: :cascade do |t|
+    t.integer  "department_id"
+    t.string   "name",          limit: 64,                 null: false
+    t.string   "code",          limit: 32,                 null: false
+    t.string   "description",   limit: 512
+    t.boolean  "status",                    default: true, null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.index ["code"], name: "index_careers_on_code", unique: true, using: :btree
+    t.index ["department_id"], name: "index_careers_on_department_id", using: :btree
     t.index ["name"], name: "index_careers_on_name", unique: true, using: :btree
   end
 
