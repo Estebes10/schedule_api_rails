@@ -19,6 +19,9 @@ RSpec.describe 'careers API', type: :request do
   # create a list of 10 careers
   let!(:careers) { create_list(:career, @total, department_id: department.id) }
 
+  # use the first record of the list created previously
+  let!(:career_id) { careers.first.id }
+
   # Test suite for GET /api/v1/careers
   describe 'GET /api/v1/careers' do
 
@@ -121,6 +124,119 @@ RSpec.describe 'careers API', type: :request do
       it 'returns a validation failure message' do
         expect(response.body)
           .to match(/Validation failed: Department must exist, Code can't be blank/)
+      end
+
+    end
+
+  end
+
+  # Test suite for PUT /api/v1/careers/:id
+  describe 'PUT /api/v1/careers/:id' do
+
+    # Set of valid attributes to change one record of careers
+    let(:valid_attributes) do
+      {
+        name:        'Licenciatura en Negocios Internacionales',
+        code:        'LIN',
+        description: 'No matemáticas',
+        status:      true,
+      }.to_json
+    end
+
+    before(:each) do
+      @career = careers.first
+    end
+
+    context 'when the record exists' do
+
+      before { put "/api/v1/careers/#{career_id}", params: valid_attributes, headers: headers }
+
+      # Test if the attributes are changed
+      it 'contains the new name' do
+        @career.reload
+        expect(@career.name).to eq('Licenciatura en Negocios Internacionales')
+      end
+
+      it 'contains the new code' do
+        @career.reload
+        expect(@career.code).to eq('LIN')
+      end
+
+      it 'contains the new description' do
+        @career.reload
+        expect(@career.description).to eq('No matemáticas')
+      end
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status(:ok)
+      end
+
+    end
+
+    context 'when attributes are not valid' do
+
+      # testing sent an empty name
+      before {
+        put "/api/v1/careers/#{career_id}",
+        params: {
+          name: nil
+        }.to_json,
+        headers: headers
+      }
+
+      it 'returns status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      # test that the attributes are not changed
+      it 'not contains the new name' do
+        expect(@career.name).not_to eq('Licenciatura en Negocios Internacionales')
+      end
+
+      it 'not contains the new description' do
+        expect(@career.description).not_to eq('No matemáticas')
+      end
+
+    end
+
+    context 'when the record does not exist' do
+
+      # Use an ID not valid
+      let(:career_id_false) { 100 }
+
+      before {
+        put "/api/v1/careers/#{career_id_false}",
+        params: valid_attributes,
+        headers: headers
+      }
+
+      it 'not updates the record' do
+        expect(@career.code).not_to eq('LIN')
+      end
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns a not found message' do
+        expect(response.body).to match(/Couldn't find Career with 'id'=#{career_id_false}/)
+      end
+
+    end
+
+    context 'when invalid headers' do
+
+      # Use no valid headers
+      let(:no_token) { invalid_headers }
+
+      before {
+        put "/api/v1/careers/#{career_id}",
+        params: valid_attributes,
+        headers: no_token
+      }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(422)
       end
 
     end
