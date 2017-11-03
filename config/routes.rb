@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
       # endpoints following /api/v1/courses
       resources :courses,
-        only: [:create, :index, :update, :destroy]
+        only: [:create, :index, :show, :update, :destroy]
 
     end
 
