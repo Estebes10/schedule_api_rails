@@ -1,9 +1,12 @@
 module Api::V1
 
+  # In this class are implemented all methods associated with the CRUD of
+  # Study Program model
+
   class StudyProgramsController < ApplicationController
 
     before_action :set_study_program,
-      only: [:update, :destroy]
+      only: [:show, :update, :destroy]
 
     def index
       # Get all study programs
@@ -15,6 +18,21 @@ module Api::V1
       # returns errors if exists problems
       else
         json_response(@study_programs, :unprocessable_entity)
+      end
+    end
+
+    # GET /study_programs/:id
+    def show
+      # send the object and the total of courses associated of this record
+      if @study
+        response = {
+          study_program: @study,
+          courses: @study.courses.count,
+        }
+        json_response(response)
+      # send 404 when the ID not exists
+      else
+        json_response(@study, :not_found)
       end
     end
 
