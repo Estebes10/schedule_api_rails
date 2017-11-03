@@ -1,9 +1,12 @@
 module Api::V1
 
+  # In this class are implemented all method required for endpoints of the
+  # CRUD of courses
+
   class CoursesController < ApplicationController
 
     before_action :get_course,
-      only: [:update, :destroy]
+      only: [:show, :update, :destroy]
 
     def index
       # Get all courses
@@ -15,6 +18,17 @@ module Api::V1
       # returns errors if exists problems
       else
         json_response(@courses, :unprocessable_entity)
+      end
+    end
+
+    # Get /api/v1/courses/:id
+    def show
+      # send the object and the total of courses associated of this record
+      if @course
+        json_response(@course)
+      # send 404 status code when the record not exists
+      else
+        json_response(@course, :not_found)
       end
     end
 
