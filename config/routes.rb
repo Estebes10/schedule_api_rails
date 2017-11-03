@@ -13,6 +13,10 @@ Rails.application.routes.draw do
     # endpoints following /api/v1/
     namespace :v1 do
 
+      # endpoints following /api/v1/departments
+      resources :departments,
+        only: :index
+
       # endpoints following /api/v1/careers
       resources :careers,
         only: [:index, :create]

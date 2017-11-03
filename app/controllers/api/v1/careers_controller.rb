@@ -7,7 +7,7 @@ module Api::V1
       @careers = Career.all
 
       # returns all Career objects
-      if @careers
+      if @careers.any?
           json_response(@careers)
       # returns errors if exists problems
       else
