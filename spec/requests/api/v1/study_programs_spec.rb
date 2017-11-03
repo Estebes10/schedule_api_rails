@@ -66,6 +66,41 @@ RSpec.describe 'Study Programs API', type: :request do
 
   end
 
+  # Test suite for GET /study_programs/:id
+  describe 'GET /api/v1/study_programs/:id' do
+
+    # Make request to the URL to get study program
+    before { get "/api/v1/study_programs/#{study_id}", params: {}, headers: headers}
+
+    context 'when the record exists' do
+
+      it 'returns the study program' do
+        expect(json).not_to be_empty
+      end
+
+      it 'returns ok status code' do
+        expect(response).to have_http_status(200)
+      end
+
+    end
+
+    context 'when the record does not exist' do
+
+      # user an id that not exits
+      let(:study_id) { 1000 }
+
+      it 'returns not found status code' do
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns a not found message' do
+        expect(response.body).to match(/Couldn't find StudyProgram with 'id'=#{study_id}/)
+      end
+
+    end
+
+  end
+
   # Test suite for POST /study_programs
   describe 'POST /api/v1/study_programs' do
 
