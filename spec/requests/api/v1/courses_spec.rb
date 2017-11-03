@@ -63,6 +63,41 @@ RSpec.describe 'Courses API', type: :request do
 
   end
 
+  # Test suite for GET api/v1/courses/:id
+  describe 'GET /api/v1/courses/:id' do
+
+    # Make request to the URL to get one course
+    before { get "/api/v1/courses/#{course_id}", params: {}, headers: headers }
+
+    context 'when record exists' do
+
+      it 'returns the course' do
+        expect(json).not_to be_empty
+      end
+
+      it 'returns an ok status code' do
+        expect(response).to have_http_status(200)
+      end
+
+    end
+
+    context 'when the record does not exists' do
+
+      # use an ID that not exists
+      let(:course_id) { 1000 }
+
+      it 'returns not found status code' do
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns a not found message' do
+        expect(response.body).to match(/Couldn't find Course with 'id'=#{course_id}/)
+      end
+
+    end
+
+  end
+
   # Test suite for POST /courses
   describe 'POST /api/v1/courses' do
 
@@ -212,6 +247,7 @@ RSpec.describe 'Courses API', type: :request do
 
   # Test suite for DELETE /courses/:id
   describe 'DELETE /api/v1/courses/:id' do
+
     context 'when record exists' do
 
       before(:each) do
@@ -228,16 +264,16 @@ RSpec.describe 'Courses API', type: :request do
 
     end
 
-   context 'when record not found' do
+    context 'when record not found' do
 
-     # Use an ID not valid
-    let(:course_id_false) { 1000 }
+       # Use an ID not valid
+      let(:course_id_false) { 1000 }
 
-    before { delete "/api/v1/courses/#{course_id_false}", params: {}, headers: headers }
+      before { delete "/api/v1/courses/#{course_id_false}", params: {}, headers: headers }
 
-    it 'returns status code 404' do
-      expect(response).to have_http_status(:not_found)
-    end
+      it 'returns status code 404' do
+        expect(response).to have_http_status(:not_found)
+      end
 
     end
 
