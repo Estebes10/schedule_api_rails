@@ -7,7 +7,7 @@ module Api::V1
 
     # Get the career before update
     before_action :get_career,
-      only: :update
+      only: [:show, :update]
 
     # GET /api/v1/careers/
     def index
@@ -20,6 +20,22 @@ module Api::V1
       # returns errors if exists problems
       else
         json_response(@careers, :unprocessable_entity)
+      end
+    end
+
+    # Get /api/v1/careers/:id
+    def show
+      # send the object and its study programs
+      if @career
+        response = {
+          career: @career,
+          total_study_programs: @career.study_programs.count,
+          study_programs: @career.study_programs,
+        }
+        json_response(response)
+      # send 404 status code when the record not exists
+      else
+        json_response(@career, :not_found)
       end
     end
 

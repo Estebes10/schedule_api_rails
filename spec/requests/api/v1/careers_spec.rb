@@ -65,6 +65,41 @@ RSpec.describe 'careers API', type: :request do
 
   end
 
+  # Test suite for GET api/v1/careers/:id
+  describe 'GET /api/v1/careers/:id' do
+
+    # Make request to the URL to get one career
+    before { get "/api/v1/careers/#{career_id}", params: {}, headers: headers }
+
+    context 'when record exists' do
+
+      it 'returns the career' do
+        expect(json).not_to be_empty
+      end
+
+      it 'returns an ok status code' do
+        expect(response).to have_http_status(200)
+      end
+
+    end
+
+    context 'when the record does not exists' do
+
+      # use an ID that not exists
+      let(:career_id) { 1000 }
+
+      it 'returns not found status code' do
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns a not found message' do
+        expect(response.body).to match(/Couldn't find Career with 'id'=#{career_id}/)
+      end
+
+    end
+
+  end
+
   # Test suite for POST /careers
   describe 'POST /api/v1/careers' do
 
