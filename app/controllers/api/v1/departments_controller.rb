@@ -7,7 +7,7 @@ module Api::V1
 
     # get the department before update
     before_action :get_department,
-      only: :update
+      only: [:show, :update]
 
     # GET /api/v1/departments
     def index
@@ -16,10 +16,21 @@ module Api::V1
 
       # returns all Department objects
       if @departments.any?
-          json_response(@departments)
+        json_response(@departments)
       # returns errors if exists problems
       else
         json_response(@departments, :unprocessable_entity)
+      end
+    end
+
+    # GET /api/v1/departments/:id
+    def show
+      # send the object and the total of careers associated of this record
+      if @department
+        json_response(@department)
+      # send 404 status code when the record not exists
+      else
+        json_response(@department, :not_found)
       end
     end
 
