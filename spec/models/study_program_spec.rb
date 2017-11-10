@@ -52,6 +52,9 @@ RSpec.describe StudyProgram, type: :model do
   it { should have_many(:course_programs) }
   it { should have_many(:courses).through(:course_programs) }
 
+  # validate association with semester
+  it { should have_many(:semesters) }
+
   it 'has many students'
 
   it "belongs to career" do

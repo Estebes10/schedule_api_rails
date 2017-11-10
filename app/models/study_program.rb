@@ -8,6 +8,8 @@ class StudyProgram < ApplicationRecord
 
   belongs_to :career
 
+  has_many :semesters
+
   # Attributes validation
   validates :name,
     presence:   true,
