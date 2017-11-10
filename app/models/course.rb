@@ -1,6 +1,11 @@
 class Course < ApplicationRecord
 
   # Associations
+  has_many :semester_courses
+
+  has_many :semesters,
+    through: :semester_courses
+
   has_many :course_programs
 
   has_many :study_programs,
