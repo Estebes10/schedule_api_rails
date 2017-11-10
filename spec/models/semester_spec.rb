@@ -46,4 +46,8 @@ RSpec.describe Semester, type: :model do
   # association with courses
   it 'has many courses'
 
+  # validate association with courses
+  it { should have_many(:semester_courses) }
+  it { should have_many(:courses).through(:semester_courses) }
+
 end
