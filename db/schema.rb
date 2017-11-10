@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171102023312) do
+ActiveRecord::Schema.define(version: 20171110044700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,16 @@ ActiveRecord::Schema.define(version: 20171102023312) do
     t.index ["code"], name: "index_roles_on_code", unique: true, using: :btree
   end
 
+  create_table "semesters", force: :cascade do |t|
+    t.integer  "semester_number",  null: false
+    t.boolean  "status",           null: false
+    t.integer  "study_program_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["semester_number"], name: "index_semesters_on_semester_number", unique: true, using: :btree
+    t.index ["study_program_id"], name: "index_semesters_on_study_program_id", using: :btree
+  end
+
   create_table "study_programs", force: :cascade do |t|
     t.integer  "career_id"
     t.string   "name",        limit: 128, null: false
@@ -126,4 +136,5 @@ ActiveRecord::Schema.define(version: 20171102023312) do
   add_foreign_key "course_programs", "courses"
   add_foreign_key "course_programs", "study_programs"
   add_foreign_key "departments", "campus"
+  add_foreign_key "semesters", "study_programs"
 end
