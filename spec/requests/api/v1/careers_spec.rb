@@ -278,4 +278,42 @@ RSpec.describe 'careers API', type: :request do
 
   end
 
+  # Test suite for DELETE /careers/:id
+  describe 'DELETE /api/v1/careers/:id' do
+
+    context 'when record exists' do
+
+      # before each test make a request to the endpoint
+      before(:each) do
+        delete "/api/v1/careers/#{career_id}", params: {}, headers: headers
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'reduce the records of the careers table' do
+        expect(Career.count).to eq(@total - 1)
+      end
+
+    end
+
+    context 'when record not found' do
+
+       # Use an ID not valid
+      let(:career_id_false) { 1000 }
+
+      # before each test make a request to the endpoint
+      before(:each) do
+        delete "/api/v1/careers/#{career_id_false}", params: {}, headers: headers
+      end
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(:not_found)
+      end
+
+    end
+
+  end
+
 end

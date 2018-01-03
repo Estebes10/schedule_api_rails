@@ -5,9 +5,9 @@ module Api::V1
 
   class CareersController < ApplicationController
 
-    # Get the career before update
+    # Get the career before show, update and destroy methods
     before_action :get_career,
-      only: [:show, :update]
+      only: [:show, :update, :destroy]
 
     # GET /api/v1/careers/
     def index
@@ -69,6 +69,17 @@ module Api::V1
       # return 404 when the id of the career is not valid
       else
         json_response(@career, :not_found)
+      end
+    end
+
+    # DELETE /api/v1/careers/:id
+    def destroy
+      if @career
+        if @career.destroy
+          head :ok
+        end
+      else
+        head :not_found
       end
     end
 

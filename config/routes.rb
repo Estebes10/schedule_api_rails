@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
       # endpoints following /api/v1/careers
       resources :careers,
-        only: [:index, :show, :create, :update]
+        only: [:index, :show, :create, :update, :destroy]
 
       # endpoints following /api/v1/study_programs
       resources :study_programs,
