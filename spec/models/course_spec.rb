@@ -93,10 +93,6 @@ RSpec.describe Course, type: :model do
   it { should have_many(:semester_courses) }
   it { should have_many(:semesters).through(:semester_courses) }
 
-  # validate association with study programs
-  it { should have_many(:course_programs) }
-  it { should have_many(:study_programs).through(:course_programs) }
-
   it 'has_many Academic Records through acedemic_courses'
 
   it 'has_many Future Classes through future_courses'

@@ -6,11 +6,6 @@ class Course < ApplicationRecord
   has_many :semesters,
     through: :semester_courses
 
-  has_many :course_programs
-
-  has_many :study_programs,
-    through: :course_programs
-
   # Attributes validation
   validates :name,
     presence:   true,

@@ -49,15 +49,6 @@ ActiveRecord::Schema.define(version: 20171110051614) do
     t.index ["name"], name: "index_careers_on_name", unique: true, using: :btree
   end
 
-  create_table "course_programs", force: :cascade do |t|
-    t.integer  "study_program_id"
-    t.integer  "course_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.index ["course_id"], name: "index_course_programs_on_course_id", using: :btree
-    t.index ["study_program_id"], name: "index_course_programs_on_study_program_id", using: :btree
-  end
-
   create_table "courses", force: :cascade do |t|
     t.string   "name",        limit: 128,                null: false
     t.string   "code",        limit: 16,                 null: false
@@ -142,8 +133,6 @@ ActiveRecord::Schema.define(version: 20171110051614) do
 
   add_foreign_key "assignments", "roles"
   add_foreign_key "assignments", "users"
-  add_foreign_key "course_programs", "courses"
-  add_foreign_key "course_programs", "study_programs"
   add_foreign_key "departments", "campus"
   add_foreign_key "semester_courses", "courses"
   add_foreign_key "semester_courses", "semesters"

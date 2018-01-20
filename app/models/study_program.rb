@@ -1,11 +1,6 @@
 class StudyProgram < ApplicationRecord
 
   # Associations
-  has_many :course_programs
-
-  has_many :courses,
-    through: :course_programs
-
   belongs_to :career
 
   has_many :semesters
