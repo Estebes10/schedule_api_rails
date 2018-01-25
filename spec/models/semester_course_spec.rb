@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe CourseProgram, type: :model do
+RSpec.describe SemesterCourse, type: :model do
 
   # Test associations
-  it "belong to courses" do
+  it 'belong to courses' do
     assc = described_class.reflect_on_association(:course)
     expect(assc.macro).to eq(:belongs_to)
   end
 
-  it "belong to study programs" do
-    assc = described_class.reflect_on_association(:study_program)
+  it 'belong to semesters' do
+    assc = described_class.reflect_on_association(:semester)
     expect(assc.macro).to eq(:belongs_to)
   end
 

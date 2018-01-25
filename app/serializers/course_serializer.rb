@@ -4,6 +4,6 @@ class CourseSerializer < ActiveModel::Serializer
   attributes :id, :name, :code, :description, :units, :class_hours, :lab_hours, :status
 
   # model associations
-  has_many :study_programs
+  has_many :semesters
 
 end

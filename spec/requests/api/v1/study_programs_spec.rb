@@ -120,10 +120,10 @@ RSpec.describe 'Study Programs API', type: :request do
 
       before { post '/api/v1/study_programs', params: valid_attributes, headers: headers }
 
-      it "returns the course created" do
-        course = StudyProgram.last
+      it "returns the study program created" do
+        study = StudyProgram.last
 
-        expect(course.name).to eq('ISC11')
+        expect(study.name).to eq('ISC11')
       end
 
       it 'returns status code 201' do

@@ -1,3 +1,5 @@
+# Seed file to create the base structure with random objects for each model
+# that represent the system
 # In this file will create one campus and its departments for example use
 
 # Create a campus by default
@@ -14,17 +16,24 @@
   @department = FactoryGirl.create(:department, campu_id: @campus.id)
 
   # Create 5 careers into the department
-  5.times do
+  4.times do
     @career = FactoryGirl.create(:career, department_id: @department.id)
 
     # Create 3 study_programs per career
     3.times do
       @study = FactoryGirl.create(:study_program, career_id: @career.id)
 
-      # Create 60 courses per study program
-      60.times do
-        @course = FactoryGirl.create(:course)
-        CourseProgram.create(study_program_id: @study.id, course_id: @course.id)
+      # Create 9 semester per study program
+      9.times do
+        @semester = FactoryGirl.create(:semester, study_program_id: @study.id)
+
+        # Create 9 courses per semester
+        9.times do
+          @course = FactoryGirl.create(:course)
+
+          # Add the semester and the courses to the model associated to both
+          SemesterCourse.create(semester_id: @semester.id, course_id: @course.id)
+        end
       end
     end
   end

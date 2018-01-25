@@ -23,11 +23,11 @@ module Api::V1
 
     # GET /study_programs/:id
     def show
-      # send the object and the total of courses associated of this record
+      # send the object and the total of semesters associated of this record
       if @study
         response = {
           study_program: @study,
-          courses: @study.courses.count,
+          semesters: @study.semesters.count,
         }
         json_response(response)
       # send 404 when the ID not exists
