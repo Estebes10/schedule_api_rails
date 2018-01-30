@@ -34,6 +34,19 @@ module Api::V1
       end
     end
 
+    # POST /api/v1/departments
+    def create
+      if @new_department = Department.create!(creation_attributes)
+        response = {
+          message: Message.record_created(@new_department.class.name),
+          department: @new_department,
+        }
+        json_response(response, :created)
+      else
+        json_response(@new_department, :unprocessable_entity)
+      end
+    end
+
     # PUT api/v1/departments/:id
     def update
       if @department

@@ -108,6 +108,63 @@ RSpec.describe 'Departments API', type: :request do
 
   end
 
+  # Test suit for POST api/v1/departments
+  describe 'POST /api/v1/departments' do
+
+    let(:valid_attributes) do
+      {
+        name:        'Departamento de Tecnologías de Información y Comunicacion',
+        code:        'TC101001',
+        description: 'Departamento de sistemas computaciones',
+        status:      true,
+        campu_id:    campus.id,
+      }.to_json
+    end
+
+    context 'when request is valid' do
+
+      # Make a request before validate if the department is saved correctly
+      before { post '/api/v1/departments', params: valid_attributes, headers: headers }
+
+      it 'returns the department created' do
+        department = Department.last
+
+        expect(department.name)
+          .to eq('Departamento de Tecnologías de Información y Comunicacion')
+      end
+
+      it 'returns status code ok' do
+        expect(response).to have_http_status(201)
+      end
+
+    end
+
+    context 'when the request is invalid' do
+
+      # Create a request without the code of the department and the campu_id
+      let(:invalid_attributes) do
+        {
+          name:        Faker::Job.field,
+          status:      true,
+          description: 'This is a invalid request',
+        }.to_json
+      end
+
+      before { post '/api/v1/departments', params: invalid_attributes, headers: headers }
+
+      it 'return unprocessable entity code' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'return a validation failure message' do
+        expect(response.body)
+          .to match(/Validation failed: Campu must exist, Code can't be blank/)
+      end
+
+    end
+
+  end
+
   # Test suite for PUT /api/v1/departments/:id
   describe 'PUT /api/v1/departments/:id' do
 
