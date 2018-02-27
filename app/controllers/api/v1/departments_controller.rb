@@ -7,7 +7,7 @@ module Api::V1
 
     # get the department before update
     before_action :get_department,
-      only: [:show, :update]
+      only: [:show, :update, :destroy]
 
     # GET /api/v1/departments
     def index
@@ -61,6 +61,15 @@ module Api::V1
         end
       else
         json_response(@department, :not_found)
+      end
+    end
+
+    # DELETE /api/v1/departments/:id
+    def destroy
+      if @department
+        head :ok if @department.destroy
+      else
+        head :not_found
       end
     end
 

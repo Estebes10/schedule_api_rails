@@ -285,4 +285,48 @@ RSpec.describe 'Departments API', type: :request do
 
   end
 
+  # Test suite for DELETE /departments/:id
+  describe 'DELETE /api/v1/departments/:id' do
+
+    context 'when record exists' do
+
+      before(:each) do
+        delete(
+          "/api/v1/departments/#{department_id}",
+          params: {},
+          headers: headers
+        )
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'reduces the records of the departments table' do
+        expect(Department.count).to eq(@total - 1)
+      end
+
+    end
+
+    context 'when records not found' do
+
+      # Use and ID not valid
+      let(:not_valid_id) { 1000 }
+
+      before(:each) do
+        delete(
+          "/api/v1/departments/#{not_valid_id}",
+          params: {},
+          headers: headers
+        )
+      end
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(:not_found)
+      end
+
+    end
+
+  end
+
 end
