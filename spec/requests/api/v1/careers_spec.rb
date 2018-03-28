@@ -9,6 +9,9 @@ RSpec.describe 'careers API', type: :request do
   # create deparment
   let(:department) { create(:department) }
 
+  # catch the ID of department to use in the URL
+  let(:department_id) { department.id }
+
   # authorize request
   let(:headers) { valid_headers }
 
@@ -18,18 +21,24 @@ RSpec.describe 'careers API', type: :request do
   end
 
   # create a list of 10 careers
-  let!(:careers) { create_list(:career, @total, department_id: department.id) }
+  let!(:careers) { create_list(:career, @total, department_id: department_id) }
 
   # use the first record of the list created previously
   let!(:career_id) { careers.first.id }
 
-  # Test suite for GET /api/v1/careers
-  describe 'GET /api/v1/careers' do
+  # Test suite for GET /api/v1/departments/:department_id/careers
+  describe 'GET /api/v1/departments/:department_id/careers' do
 
     context 'when careers exist' do
 
       # make HTTP get request before each example
-      before { get '/api/v1/careers', params: {}, headers: headers }
+      before(:each) do
+        get(
+          "/api/v1/departments/#{department_id}/careers",
+          params: {},
+          headers: headers
+        )
+      end
 
       it 'returns careers' do
         expect(json).not_to be_empty
@@ -52,7 +61,13 @@ RSpec.describe 'careers API', type: :request do
       end
 
       # make HTTP get request before each example
-      before { get '/api/v1/careers', params: {}, headers: headers }
+      before(:each) do
+        get(
+          "/api/v1/departments/#{department_id}/careers",
+          params: {},
+          headers: headers
+        )
+      end
 
       it 'not returns careers' do
         expect(json).to be_empty
@@ -66,11 +81,17 @@ RSpec.describe 'careers API', type: :request do
 
   end
 
-  # Test suite for GET api/v1/careers/:id
-  describe 'GET /api/v1/careers/:id' do
+  # Test suite for GET api/v1/departments/:department_id/careers/:id
+  describe 'GET /api/v1/departments/:department_id/careers/:id' do
 
     # Make request to the URL to get one career
-    before { get "/api/v1/careers/#{career_id}", params: {}, headers: headers }
+    before(:each) do
+      get(
+        "/api/v1/departments/#{department_id}/careers/#{career_id}",
+        params: {},
+        headers: headers
+      )
+    end
 
     context 'when record exists' do
 
@@ -86,24 +107,27 @@ RSpec.describe 'careers API', type: :request do
 
     context 'when the record does not exists' do
 
+      after(:each) do
+        department.careers.destroy_all
+      end
+
       # use an ID that not exists
-      let(:career_id) { 1000 }
+      let(:career_id) { 0 }
 
       it 'returns not found status code' do
         expect(response).to have_http_status(404)
       end
 
       it 'returns a not found message' do
-        expect(response.body)
-          .to match(/Couldn't find Career with 'id'=#{career_id}/)
+        expect(response.body).to include("Couldn't find Career")
       end
 
     end
 
   end
 
-  # Test suite for POST /careers
-  describe 'POST /api/v1/careers' do
+  # Test suite for POST /api/v1/departments/:department_id/careers
+  describe 'POST /api/v1/departments/:department_id/careers' do
 
     # valid payload
     let(:valid_attributes) do
@@ -112,7 +136,6 @@ RSpec.describe 'careers API', type: :request do
         code:        'ISC',
         description: 'Esta es una carrera impartida en el campus querétaro',
         status:      true,
-        department_id: department.id,
       }.to_json
     end
 
@@ -121,7 +144,7 @@ RSpec.describe 'careers API', type: :request do
       # make request to /api/v1/courses
       before(:each) do
         post(
-          '/api/v1/careers',
+          "/api/v1/departments/#{department_id}/careers",
           params: valid_attributes,
           headers: headers
         )
@@ -162,7 +185,7 @@ RSpec.describe 'careers API', type: :request do
       # try to request to /api/v1/careers
       before(:each) do
         post(
-          '/api/v1/careers',
+          "/api/v1/departments/#{department_id}/careers",
           params: invalid_attributes,
           headers: headers
         )
@@ -174,15 +197,15 @@ RSpec.describe 'careers API', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Department must exist, Code can't be blank/)
+          .to match(/Validation failed: Code can't be blank/)
       end
 
     end
 
   end
 
-  # Test suite for PUT /api/v1/careers/:id
-  describe 'PUT /api/v1/careers/:id' do
+  # Test suite for PUT /api/v1/departments/:department_id/careers/:id
+  describe 'PUT /api/v1/departments/:department_id/careers/:id' do
 
     # Set of valid attributes to change one record of careers
     let(:valid_attributes) do
@@ -202,7 +225,7 @@ RSpec.describe 'careers API', type: :request do
 
       before(:each) do
         put(
-          "/api/v1/careers/#{career_id}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}",
           params: valid_attributes,
           headers: headers
         )
@@ -235,7 +258,7 @@ RSpec.describe 'careers API', type: :request do
       # testing sent an empty name
       before(:each) do
         put(
-          "/api/v1/careers/#{career_id}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}",
           params: { name: nil }.to_json,
           headers: headers
         )
@@ -260,11 +283,11 @@ RSpec.describe 'careers API', type: :request do
     context 'when the record does not exist' do
 
       # Use an ID not valid
-      let(:career_id_false) { 100 }
+      let(:career_id) { 0 }
 
       before(:each) do
         put(
-          "/api/v1/careers/#{career_id_false}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}",
           params: valid_attributes,
           headers: headers
         )
@@ -279,8 +302,7 @@ RSpec.describe 'careers API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body)
-          .to match(/Couldn't find Career with 'id'=#{career_id_false}/)
+        expect(response.body).to include("Couldn't find Career")
       end
 
     end
@@ -292,7 +314,7 @@ RSpec.describe 'careers API', type: :request do
 
       before(:each) do
         put(
-          "/api/v1/careers/#{career_id}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}",
           params: valid_attributes,
           headers: no_token
         )
@@ -306,14 +328,18 @@ RSpec.describe 'careers API', type: :request do
 
   end
 
-  # Test suite for DELETE /careers/:id
-  describe 'DELETE /api/v1/careers/:id' do
+  # Test suite for DELETE /api/v1/departments/:department_id/careers/:id
+  describe 'DELETE /api/v1/departments/:department_id/careers/:id' do
 
     context 'when record exists' do
 
       # before each test make a request to the endpoint
       before(:each) do
-        delete "/api/v1/careers/#{career_id}", params: {}, headers: headers
+        delete(
+          "/api/v1/departments/#{department_id}/careers/#{career_id}",
+          params: {},
+          headers: headers
+        )
       end
 
       it 'returns status code 200' do
@@ -329,12 +355,12 @@ RSpec.describe 'careers API', type: :request do
     context 'when record not found' do
 
       # Use an ID not valid
-      let(:career_id_false) { 1000 }
+      let(:career_id_false) { 0 }
 
       # before each test make a request to the endpoint
       before(:each) do
         delete(
-          "/api/v1/careers/#{career_id_false}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id_false}",
           params: {},
           headers: headers
         )

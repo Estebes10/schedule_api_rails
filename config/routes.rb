@@ -14,20 +14,24 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       # endpoints following /api/v1/departments
-      resources :departments,
-        only: [:index, :show, :create, :update, :destroy]
+      resources :departments, only: %I[index show create update destroy] do
 
-      # endpoints following /api/v1/careers
-      resources :careers,
-        only: [:index, :show, :create, :update, :destroy]
+        # endpoints following /api/v1/departments/:department_id/careers
+        resources :careers, only: %I[index show create update destroy] do
 
-      # endpoints following /api/v1/study_programs
-      resources :study_programs,
-        only: [:create, :index, :update, :destroy, :show]
+          # endpoints following
+          # /api/v1/departments/:department_id/careers/:career_id/study_programs
+          resources :study_programs, only: %I[index show create update destroy ] do
 
-      # endpoints following /api/v1/courses
-      resources :courses,
-        only: [:create, :index, :show, :update, :destroy]
+            # endpoints following
+            # /api/v1/departments/:department_id/careers/:career_id/study_programs/:study_program_id/courses
+            resources :courses, only: %I[index show create update destroy]
+
+          end
+
+        end
+
+      end
 
     end
 

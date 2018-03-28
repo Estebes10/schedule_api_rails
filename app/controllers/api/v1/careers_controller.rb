@@ -5,6 +5,9 @@ module Api::V1
 
   class CareersController < ApplicationController
 
+    # Get the deparment at first to get its careers
+    before_action :find_department
+
     # Get the career before show, update and destroy methods
     before_action :find_career,
       only: [:show, :update, :destroy]
@@ -12,11 +15,11 @@ module Api::V1
     # GET /api/v1/careers/
     def index
       # Get all careers
-      @careers = Career.all
+      @careers = @department.careers
 
       # returns all Career objects
       if @careers.any?
-          json_response(@careers)
+        json_response(@careers)
       # returns errors if exists problems
       else
         json_response(@careers, :unprocessable_entity)
@@ -41,7 +44,7 @@ module Api::V1
 
     # POST /api/v1/careers/
     def create
-      @career = Career.create!(creation_attributes)
+      @career = @department.careers.create!(creation_attributes)
       if @career
         response = {
           message: Message.record_created(@career.class.name),
@@ -97,9 +100,14 @@ module Api::V1
       )
     end
 
+    # Get the department with the ID sent in request as department_id
+    def find_department
+      @department = Department.find(params[:department_id])
+    end
+
     # Get the career with the ID sent in the request
     def find_career
-      @career = Career.find(params[:id])
+      @career = @department.careers.find_by!(id: params[:id]) if @department
     end
 
   end
