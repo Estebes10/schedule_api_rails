@@ -1,3 +1,9 @@
+# This class implements the authentication method for users which are
+# already registered into the system.
+# @param [String] Email, string containing the email of the current user
+# @param [String] Password, hidden string containing the user's password
+#
+# Author:: Juan Carlos Estebes <jhon10njc@gmail.com>
 class AuthenticationController < ApplicationController
 
   # skip authorization request to user who are trying to logged in the system

@@ -1,3 +1,6 @@
+# This class represent a entity or object of Course in the database, to store
+# and validate data, this entity is a single object assigned to study programs,
+# record academics and semesters.
 class Course < ApplicationRecord
 
   # Associations

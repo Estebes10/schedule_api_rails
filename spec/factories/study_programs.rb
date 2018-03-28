@@ -1,3 +1,5 @@
+# This file executes a generator to create a fake Study Program object with
+# fake data
 FactoryGirl.define do
 
   # Generate a fake record for StudyProgram model

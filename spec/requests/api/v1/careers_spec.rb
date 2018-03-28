@@ -1,3 +1,4 @@
+# This file implements a suit of tests for Career API endpoint requests
 require 'rails_helper'
 
 RSpec.describe 'careers API', type: :request do
@@ -28,7 +29,7 @@ RSpec.describe 'careers API', type: :request do
     context 'when careers exist' do
 
       # make HTTP get request before each example
-      before { get '/api/v1/careers', params: {}, headers: headers}
+      before { get '/api/v1/careers', params: {}, headers: headers }
 
       it 'returns careers' do
         expect(json).not_to be_empty
@@ -51,7 +52,7 @@ RSpec.describe 'careers API', type: :request do
       end
 
       # make HTTP get request before each example
-      before { get '/api/v1/careers', params: {}, headers: headers}
+      before { get '/api/v1/careers', params: {}, headers: headers }
 
       it 'not returns careers' do
         expect(json).to be_empty
@@ -93,7 +94,8 @@ RSpec.describe 'careers API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find Career with 'id'=#{career_id}/)
+        expect(response.body)
+          .to match(/Couldn't find Career with 'id'=#{career_id}/)
       end
 
     end
@@ -116,9 +118,16 @@ RSpec.describe 'careers API', type: :request do
 
     context 'when the request is valid' do
 
-      before { post '/api/v1/careers', params: valid_attributes, headers: headers }
+      # make request to /api/v1/courses
+      before(:each) do
+        post(
+          '/api/v1/careers',
+          params: valid_attributes,
+          headers: headers
+        )
+      end
 
-      it "adds a new record" do
+      it 'adds a new record' do
         expect(Career.count).to eq(@total + 1)
       end
 
@@ -150,7 +159,14 @@ RSpec.describe 'careers API', type: :request do
         }.to_json
       end
 
-      before { post '/api/v1/careers', params: invalid_attributes, headers: headers }
+      # try to request to /api/v1/careers
+      before(:each) do
+        post(
+          '/api/v1/careers',
+          params: invalid_attributes,
+          headers: headers
+        )
+      end
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -184,7 +200,13 @@ RSpec.describe 'careers API', type: :request do
 
     context 'when the record exists' do
 
-      before { put "/api/v1/careers/#{career_id}", params: valid_attributes, headers: headers }
+      before(:each) do
+        put(
+          "/api/v1/careers/#{career_id}",
+          params: valid_attributes,
+          headers: headers
+        )
+      end
 
       # Test if the attributes are changed
       it 'contains the new name' do
@@ -211,13 +233,13 @@ RSpec.describe 'careers API', type: :request do
     context 'when attributes are not valid' do
 
       # testing sent an empty name
-      before {
-        put "/api/v1/careers/#{career_id}",
-        params: {
-          name: nil
-        }.to_json,
-        headers: headers
-      }
+      before(:each) do
+        put(
+          "/api/v1/careers/#{career_id}",
+          params: { name: nil }.to_json,
+          headers: headers
+        )
+      end
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -225,7 +247,8 @@ RSpec.describe 'careers API', type: :request do
 
       # test that the attributes are not changed
       it 'not contains the new name' do
-        expect(@career.name).not_to eq('Licenciatura en Negocios Internacionales')
+        expect(@career.name)
+          .not_to eq('Licenciatura en Negocios Internacionales')
       end
 
       it 'not contains the new description' do
@@ -239,11 +262,13 @@ RSpec.describe 'careers API', type: :request do
       # Use an ID not valid
       let(:career_id_false) { 100 }
 
-      before {
-        put "/api/v1/careers/#{career_id_false}",
-        params: valid_attributes,
-        headers: headers
-      }
+      before(:each) do
+        put(
+          "/api/v1/careers/#{career_id_false}",
+          params: valid_attributes,
+          headers: headers
+        )
+      end
 
       it 'not updates the record' do
         expect(@career.code).not_to eq('LIN')
@@ -254,7 +279,8 @@ RSpec.describe 'careers API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find Career with 'id'=#{career_id_false}/)
+        expect(response.body)
+          .to match(/Couldn't find Career with 'id'=#{career_id_false}/)
       end
 
     end
@@ -264,11 +290,13 @@ RSpec.describe 'careers API', type: :request do
       # Use no valid headers
       let(:no_token) { invalid_headers }
 
-      before {
-        put "/api/v1/careers/#{career_id}",
-        params: valid_attributes,
-        headers: no_token
-      }
+      before(:each) do
+        put(
+          "/api/v1/careers/#{career_id}",
+          params: valid_attributes,
+          headers: no_token
+        )
+      end
 
       it 'returns status code 404' do
         expect(response).to have_http_status(422)
@@ -300,12 +328,16 @@ RSpec.describe 'careers API', type: :request do
 
     context 'when record not found' do
 
-       # Use an ID not valid
+      # Use an ID not valid
       let(:career_id_false) { 1000 }
 
       # before each test make a request to the endpoint
       before(:each) do
-        delete "/api/v1/careers/#{career_id_false}", params: {}, headers: headers
+        delete(
+          "/api/v1/careers/#{career_id_false}",
+          params: {},
+          headers: headers
+        )
       end
 
       it 'returns status code 404' do

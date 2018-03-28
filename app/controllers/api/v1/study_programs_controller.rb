@@ -5,7 +5,7 @@ module Api::V1
 
   class StudyProgramsController < ApplicationController
 
-    before_action :set_study_program,
+    before_action :find_study_program,
       only: [:show, :update, :destroy]
 
     def index
@@ -37,17 +37,15 @@ module Api::V1
     end
 
     def create
-
       if @study_program = StudyProgram.create!(creation_attributes)
         response = {
           message: Message.record_created(@study_program.class.name),
-          study_program: @study_program
+          study_program: @study_program,
         }
         json_response(response, :created)
       else
         json_response(@study_program, :unprocessable_entity)
       end
-
     end
 
     def update
@@ -80,16 +78,17 @@ module Api::V1
     private
 
     def creation_attributes
-      params.require(:study_program)
+      params
+        .require(:study_program)
         .permit(
           :name,
           :description,
           :status,
-          :career_id,
+          :career_id
         )
     end
 
-    def set_study_program
+    def find_study_program
       @study = StudyProgram.find(params[:id])
     end
 

@@ -1,3 +1,4 @@
+# This file implements a suit of tests for User API endpoint requests
 require 'rails_helper'
 
 RSpec.describe 'Users API', type: :request do
@@ -24,7 +25,13 @@ RSpec.describe 'Users API', type: :request do
       before_count = User.count
 
       # Before each test execute request
-      before { post '/signup', params: valid_attributes.to_json, headers: headers }
+      before(:each) do
+        post(
+          '/signup',
+          params: valid_attributes.to_json,
+          headers: headers
+        )
+      end
 
       it 'creates a new user' do
         expect(User.count).not_to eq(before_count)

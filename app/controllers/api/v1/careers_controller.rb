@@ -6,7 +6,7 @@ module Api::V1
   class CareersController < ApplicationController
 
     # Get the career before show, update and destroy methods
-    before_action :get_career,
+    before_action :find_career,
       only: [:show, :update, :destroy]
 
     # GET /api/v1/careers/
@@ -41,10 +41,11 @@ module Api::V1
 
     # POST /api/v1/careers/
     def create
-      if @career = Career.create!(creation_attributes)
+      @career = Career.create!(creation_attributes)
+      if @career
         response = {
           message: Message.record_created(@career.class.name),
-          career: @career
+          career: @career,
         }
         json_response(response, :created)
       else
@@ -92,12 +93,12 @@ module Api::V1
         :code,
         :description,
         :status,
-        :department_id,
+        :department_id
       )
     end
 
     # Get the career with the ID sent in the request
-    def get_career
+    def find_career
       @career = Career.find(params[:id])
     end
 

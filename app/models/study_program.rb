@@ -1,3 +1,6 @@
+# This class represent a entity or object of Study Program in the database,
+# to store and validate data, perform business logic and otherwise do the heavy
+# lifting.
 class StudyProgram < ApplicationRecord
 
   # Associations

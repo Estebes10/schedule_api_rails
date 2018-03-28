@@ -6,7 +6,7 @@ module Api::V1
   class DepartmentsController < ApplicationController
 
     # get the department before update
-    before_action :get_department,
+    before_action :find_department,
       only: [:show, :update, :destroy]
 
     # GET /api/v1/departments
@@ -82,12 +82,12 @@ module Api::V1
         :code,
         :description,
         :status,
-        :campu_id,
+        :campu_id
       )
     end
 
     # find the department with the ID sent in request
-    def get_department
+    def find_department
       @department = Department.find(params[:id])
     end
 

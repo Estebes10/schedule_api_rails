@@ -1,3 +1,5 @@
+# This file implements a suit of tests to check associations, validations and
+# methods in User Model.
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
@@ -101,7 +103,7 @@ RSpec.describe User, type: :model do
     expect(user).not_to be_valid
   end
 
-  it 'is not valid if the phone number given contains more than 32 characters' do
+  it 'is not valid if phone number given contains more than 32 characters' do
     user.phone = 'a' * 33
 
     expect(user).not_to be_valid
@@ -127,7 +129,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:roles).through(:assignments) }
 
   # validate role for users
-  describe '.role?'do
+  describe '.role?' do
 
     before(:each) do
       @user = FactoryGirl.create(:user)
@@ -147,7 +149,7 @@ RSpec.describe User, type: :model do
   end
 
   # validate role name for users
-  describe '.role_name?'do
+  describe '.role_name?' do
 
     before(:each) do
       @user = FactoryGirl.create(:user)

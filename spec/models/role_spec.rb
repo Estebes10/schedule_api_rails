@@ -1,3 +1,5 @@
+# This file implements a suit of tests to check associations, validations and
+# methods in Role Model.
 require 'rails_helper'
 
 RSpec.describe Role, type: :model do
@@ -50,7 +52,7 @@ RSpec.describe Role, type: :model do
     expect(role).not_to be_valid
   end
 
-  it 'is not valid if the description given contains more than 512 characters' do
+  it 'is not valid if description given contains more than 512 characters' do
     role.description = 'a' * 513
 
     expect(role).not_to be_valid

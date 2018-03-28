@@ -1,3 +1,4 @@
+# This file implements a suit of tests to autheticate valid and invalid users.
 require 'rails_helper'
 
 RSpec.describe 'Authentication', type: :request do
@@ -15,14 +16,14 @@ RSpec.describe 'Authentication', type: :request do
     let(:valid_credentials) do
       {
         email: user.email,
-        password: user.password
+        password: user.password,
       }.to_json
     end
 
     let(:invalid_credentials) do
       {
         email: Faker::Internet.email,
-        password: Faker::Internet.password
+        password: Faker::Internet.password,
       }.to_json
     end
 
@@ -45,7 +46,13 @@ RSpec.describe 'Authentication', type: :request do
     context 'When request is invalid' do
 
       # Get the route to login
-      before { post '/auth/login', params: invalid_credentials, headers: headers }
+      before(:each) do
+        post(
+          '/auth/login',
+          params: invalid_credentials,
+          headers: headers
+        )
+      end
 
       it 'returns a failure message' do
         expect(json['message']).to match(/Invalid credentials/)

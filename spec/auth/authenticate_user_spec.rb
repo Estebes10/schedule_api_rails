@@ -1,3 +1,5 @@
+# This file implement a suit of test to check authentication with valid and
+# invalid credentials.
 require 'rails_helper'
 
 RSpec.describe AuthenticateUser do

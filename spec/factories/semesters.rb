@@ -1,3 +1,4 @@
+# This file executes a generator to create a fake Semester object with fake data
 FactoryGirl.define do
 
   factory :semester do

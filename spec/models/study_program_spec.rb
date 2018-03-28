@@ -1,3 +1,5 @@
+# This file implements a suit of tests to check associations, validations and
+# methods in StudyProgram Model.
 require 'rails_helper'
 
 RSpec.describe StudyProgram, type: :model do
@@ -32,7 +34,7 @@ RSpec.describe StudyProgram, type: :model do
     expect(study_program).not_to be_valid
   end
 
-  it 'is not valid if the description given contains more than 512 characters' do
+  it 'is not valid if description given contains more than 512 characters' do
     study_program.description = 'a' * 513
 
     expect(study_program).not_to be_valid
@@ -49,12 +51,12 @@ RSpec.describe StudyProgram, type: :model do
 
   # Test associations
 
-  # validate association with semester
+  # validate association with semester
   it { should have_many(:semesters) }
 
   it 'has many students'
 
-  it "belongs to career" do
+  it 'belongs to career' do
     assc = described_class.reflect_on_association(:career)
     expect(assc.macro).to eq(:belongs_to)
   end

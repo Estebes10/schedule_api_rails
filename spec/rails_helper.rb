@@ -8,7 +8,7 @@ require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -55,7 +55,7 @@ RSpec.configure do |config|
   # Add request directory to test any kind of requests
   # config.include RequestSpecHelper, type: :request
 
-  # include test helpers from support directory
+  # include test helpers from support directory
   config.include RequestSpecHelper
   config.include ControllerSpecHelper
 

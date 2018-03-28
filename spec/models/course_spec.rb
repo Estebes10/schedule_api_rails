@@ -1,3 +1,5 @@
+# This file implements a suit of tests to check associations, validations and
+# methods in Course Model.
 require 'rails_helper'
 
 RSpec.describe Course, type: :model do
@@ -63,7 +65,7 @@ RSpec.describe Course, type: :model do
     expect(course).not_to be_valid
   end
 
-  it 'is not valid if the description given contains more than 512 characters' do
+  it 'is not valid if description given contains more than 512 characters' do
     course.description = 'a' * 513
 
     expect(course).not_to be_valid

@@ -1,3 +1,4 @@
+# This class implements helper methods for valid and invalid specs.
 module ControllerSpecHelper
 
   # generate tokens from user id

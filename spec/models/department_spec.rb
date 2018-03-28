@@ -1,3 +1,5 @@
+# This file implements a suit of tests to check associations, validations
+# and methods in Department Model.
 require 'rails_helper'
 
 RSpec.describe Department, type: :model do
@@ -8,7 +10,7 @@ RSpec.describe Department, type: :model do
   end
 
   # Test for all valid attributes are given
-  it 'is valid if the name, description, campu_id, code and status are given ' do
+  it 'is valid if the name, description, campu_id, code and status are given' do
     expect(department).to be_valid
   end
 
@@ -50,7 +52,7 @@ RSpec.describe Department, type: :model do
     expect(department).not_to be_valid
   end
 
-  it 'is not valid if the description given contains more than 512 characters' do
+  it 'is not valid if description given contains more than 512 characters' do
     department.description = 'a' * 513
 
     expect(department).not_to be_valid
@@ -58,16 +60,16 @@ RSpec.describe Department, type: :model do
 
   # validate uniqueness for name and code attributes
   it 'is not valid if the name is not unique' do
-    # Create a previos record of departments with the same name and then try to save
-    # the new department built before
+    # Create a previos record of departments with the same name and then try to
+    # save the new department built before
     FactoryGirl.create(:department, name: department.name)
 
     expect(department).not_to be_valid
   end
 
   it 'is not valid if the code is not unique' do
-    # Create a previos record of departments with the same code and then try to save
-    # the new department built before
+    # Create a previos record of departments with the same code and then try to
+    # save the new department built before
     FactoryGirl.create(:department, code: department.code)
 
     expect(department).not_to be_valid

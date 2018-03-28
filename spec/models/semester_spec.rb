@@ -1,3 +1,5 @@
+# This file implements a suit of tests to check associations, validations and
+# methods in Semester Model.
 require 'rails_helper'
 
 RSpec.describe Semester, type: :model do

@@ -1,8 +1,12 @@
+# The AuthorizeApiRequest service gets the token from the authorization headers,
+# initialize the class with headers
+# Params:
+# +user_id+:: unique integer value.
+#
+# Author:: Juan Carlos Estebes <jhon10njc@gmail.com>
 class AuthorizeApiRequest
 
-  # The AuthorizeApiRequest service gets the token from the authorization headers,
-  # initialize the class with headers
-  # to use this method just call .new()
+  # class initiaization, to use this method just call .new()
   def initialize(headers = {})
     @headers = headers
   end
@@ -10,7 +14,7 @@ class AuthorizeApiRequest
   # Service entry point - return valid user object
   def call
     {
-      user: user
+      user: user,
     }
   end
 
@@ -18,13 +22,12 @@ class AuthorizeApiRequest
 
   attr_reader :headers
 
+  # check if user is in the database,
+  # * memoize user object
+  # * raise custom error if user nt found.
   def user
-    # check if user is in the database
-    # memoize user object
     @user ||= User.find(decoded_auth_token[:user_id]) if decoded_auth_token
-    # handle user not found
   rescue ActiveRecord::RecordNotFound => e
-    # raise custom error
     raise(
       ExceptionHandler::InvalidToken, ("#{Message.invalid_token} #{e.message}")
     )
@@ -36,12 +39,12 @@ class AuthorizeApiRequest
   end
 
   # check for token in `Authorization` header
+  # * raise exceptions if token is not valid
   def http_auth_header
-
     if headers['Authorization'].present?
       return headers['Authorization'].split(' ').last
     end
-      raise(ExceptionHandler::MissingToken, Message.missing_token)
+    raise(ExceptionHandler::MissingToken, Message.missing_token)
   end
 
 end

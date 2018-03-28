@@ -1,7 +1,11 @@
+# Main class that contains most important features to access in the system,
+# like concerns and session methods.
+#
+# Autor:: Juan Carlos Estebes <jhon10njc@gmail.com>
 class ApplicationController < ActionController::API
 
   # Include concerns files and their methods for all controllers that inherit
-  # from ApplicationController
+  # from ApplicationController
   include Response
   include ExceptionHandler
 
@@ -14,7 +18,7 @@ class ApplicationController < ActionController::API
 
   # Check for valid request token and return user
   def authorize_request
-    @current_user = (AuthorizeApiRequest.new(request.headers).call)[:user]
+    @current_user = AuthorizeApiRequest.new(request.headers).call[:user]
   end
 
 end

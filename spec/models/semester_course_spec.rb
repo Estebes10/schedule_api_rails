@@ -1,3 +1,5 @@
+# This file implements a suit of tests to validate associations between courses
+# and semesters
 require 'rails_helper'
 
 RSpec.describe SemesterCourse, type: :model do

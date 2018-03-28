@@ -1,3 +1,4 @@
+# Populate main roles in the database with specific roles.
 Role.create(
   code:        'Administrator',
   name:        'Administrador',

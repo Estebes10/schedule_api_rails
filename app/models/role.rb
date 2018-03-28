@@ -1,3 +1,5 @@
+# This class represent a entity or object of Role in the database, to store
+# and validate data from roles to allow be assigned to each User.
 class Role < ApplicationRecord
 
   # Associations

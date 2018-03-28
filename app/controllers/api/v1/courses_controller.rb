@@ -1,11 +1,11 @@
 module Api::V1
 
-  # In this class are implemented all method required for endpoints of the
+  # In this class are implemented all method required for endpoints of the
   # CRUD of courses
 
   class CoursesController < ApplicationController
 
-    before_action :get_course,
+    before_action :find_course,
       only: [:show, :update, :destroy]
 
     def index
@@ -33,17 +33,15 @@ module Api::V1
     end
 
     def create
-
       if @course = Course.create!(creation_attributes)
         response = {
           message: Message.record_created(@course.class.name),
-          course: @course
+          course: @course,
         }
         json_response(response, :created)
       else
         json_response(@course, :unprocessable_entity)
       end
-
     end
 
     def update
@@ -82,12 +80,12 @@ module Api::V1
         :units,
         :class_hours,
         :lab_hours,
-        :status,
+        :status
       )
     end
 
     # Get the course with the ID sent in the request
-    def get_course
+    def find_course
       @course = Course.find(params[:id])
     end
 

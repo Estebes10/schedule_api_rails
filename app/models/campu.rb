@@ -1,3 +1,5 @@
+# This class represent a entity or object of Campus in the database is the upper
+# class in the system to group other objects in the system.
 class Campu < ApplicationRecord
 
   # Associations

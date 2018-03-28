@@ -1,4 +1,4 @@
-# spec/requests/todos_spec.rb
+# This file implements a suit of tests for Study Programs API endpoint requests
 require 'rails_helper'
 
 RSpec.describe 'Study Programs API', type: :request do
@@ -14,7 +14,13 @@ RSpec.describe 'Study Programs API', type: :request do
   end
 
   # Create a list of study programs
-  let!(:study_programs) { create_list(:study_program, @total, career_id: career.id) }
+  let!(:study_programs) do
+    create_list(
+      :study_program,
+      @total,
+      career_id: career.id
+    )
+  end
 
   # Use the first element of StudyProgram
   let(:study_id) { study_programs.first.id }
@@ -28,7 +34,7 @@ RSpec.describe 'Study Programs API', type: :request do
     context 'when study programs exist' do
 
       # make HTTP get request before each example
-      before { get '/api/v1/study_programs', params: {}, headers: headers}
+      before { get '/api/v1/study_programs', params: {}, headers: headers }
 
       it 'returns study programs' do
         # Note `json` is a custom helper to parse JSON responses
@@ -52,7 +58,7 @@ RSpec.describe 'Study Programs API', type: :request do
       end
 
       # make HTTP get request before each example
-      before { get '/api/v1/study_programs', params: {}, headers: headers}
+      before { get '/api/v1/study_programs', params: {}, headers: headers }
 
       it 'not returns study programs' do
         expect(json).to be_empty
@@ -70,7 +76,9 @@ RSpec.describe 'Study Programs API', type: :request do
   describe 'GET /api/v1/study_programs/:id' do
 
     # Make request to the URL to get study program
-    before { get "/api/v1/study_programs/#{study_id}", params: {}, headers: headers}
+    before(:each) do
+      get "/api/v1/study_programs/#{study_id}", params: {}, headers: headers
+    end
 
     context 'when the record exists' do
 
@@ -94,7 +102,8 @@ RSpec.describe 'Study Programs API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find StudyProgram with 'id'=#{study_id}/)
+        expect(response.body)
+          .to match(/Couldn't find StudyProgram with 'id'=#{study_id}/)
       end
 
     end
@@ -112,15 +121,21 @@ RSpec.describe 'Study Programs API', type: :request do
           description:   'Plan de estudio para el año 2011',
           status:        true,
           career_id:     career.id,
-        }
+        },
       }.to_json
     end
 
     context 'when the request is valid' do
 
-      before { post '/api/v1/study_programs', params: valid_attributes, headers: headers }
+      before(:each) do
+        post(
+          '/api/v1/study_programs',
+          params: valid_attributes,
+          headers: headers
+        )
+      end
 
-      it "returns the study program created" do
+      it 'returns the study program created' do
         study = StudyProgram.last
 
         expect(study.name).to eq('ISC11')
@@ -135,7 +150,13 @@ RSpec.describe 'Study Programs API', type: :request do
     context 'when the request is invalid' do
 
       # Only one required attribute is given
-      before { post '/api/v1/study_programs', params: { name: 'ISC18' }.to_json, headers: headers }
+      before(:each) do
+        post(
+          '/api/v1/study_programs',
+          params: { name: 'ISC18' }.to_json,
+          headers: headers
+        )
+      end
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -159,7 +180,7 @@ RSpec.describe 'Study Programs API', type: :request do
           name:          'ISDR20',
           description:   'Plan de estudio para el año 2020',
           status:        true,
-        }
+        },
       }.to_json
     end
 
@@ -169,19 +190,25 @@ RSpec.describe 'Study Programs API', type: :request do
 
     context 'when the record exists' do
 
-      before { put "/api/v1/study_programs/#{study_id}", params: valid_attributes, headers: headers }
+      before(:each) do
+        put(
+          "/api/v1/study_programs/#{study_id}",
+          params: valid_attributes,
+          headers: headers
+        )
+      end
 
-      it "contains the new name" do
+      it 'contains the new name' do
         @study.reload
         expect(@study.name).to eq('ISDR20')
       end
 
-      it "contains the new description" do
+      it 'contains the new description' do
         @study.reload
         expect(@study.description).to eq('Plan de estudio para el año 2020')
       end
 
-      it "contains the new status" do
+      it 'contains the new status' do
         @study.reload
         expect(@study.status).to eq(true)
       end
@@ -194,17 +221,23 @@ RSpec.describe 'Study Programs API', type: :request do
 
     context 'when attributes are not valid' do
 
-      before { put "/api/v1/study_programs/#{study_id}", params: { name: nil }.to_json, headers: headers }
+      before(:each) do
+        put(
+          "/api/v1/study_programs/#{study_id}",
+          params: { name: nil }.to_json,
+          headers: headers
+        )
+      end
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
       end
 
-      it "not contains the new name" do
+      it 'not contains the new name' do
         expect(@study.name).not_to eq('ISDR20')
       end
 
-      it "not contains the new description" do
+      it 'not contains the new description' do
         expect(@study.description).not_to eq('Plan de estudio para el año 2020')
       end
 
@@ -215,9 +248,15 @@ RSpec.describe 'Study Programs API', type: :request do
       # Use an ID not valid
       let(:study_id_false) { 100 }
 
-      before { put "/api/v1/study_programs/#{study_id_false}", params: valid_attributes, headers: headers }
+      before(:each) do
+        put(
+          "/api/v1/study_programs/#{study_id_false}",
+          params: valid_attributes,
+          headers: headers
+        )
+      end
 
-      it "not updates the record" do
+      it 'not updates the record' do
         expect(@study.name).not_to eq('ISDR20')
       end
 
@@ -226,7 +265,8 @@ RSpec.describe 'Study Programs API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find StudyProgram with 'id'=#{study_id_false}/)
+        expect(response.body)
+          .to match(/Couldn't find StudyProgram with 'id'=#{study_id_false}/)
       end
 
     end
@@ -239,7 +279,11 @@ RSpec.describe 'Study Programs API', type: :request do
     context 'when record found' do
 
       before(:each) do
-        delete "/api/v1/study_programs/#{study_id}", params: {}, headers: headers
+        delete(
+          "/api/v1/study_programs/#{study_id}",
+          params: {},
+          headers: headers
+        )
       end
 
       it 'returns status code 200' do
@@ -257,7 +301,13 @@ RSpec.describe 'Study Programs API', type: :request do
       # Use an ID not valid
       let(:study_id_false) { 1000 }
 
-      before { delete "/api/v1/study_programs/#{study_id_false}", params: {}, headers: headers }
+      before(:each) do
+        delete(
+          "/api/v1/study_programs/#{study_id_false}",
+          params: {},
+          headers: headers
+        )
+      end
 
       it 'returns status code 404' do
         expect(response).to have_http_status(:not_found)

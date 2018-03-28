@@ -1,4 +1,4 @@
-# This class returns a message to authentication request
+# This class returns custom messages for different requests to the system.
 class Message
 
   def self.not_found(record = 'record')
@@ -46,7 +46,7 @@ class Message
   end
 
   def self.empty
-    "No records found"
+    'No records found'
   end
 
   def self.record_updated(record = 'record')

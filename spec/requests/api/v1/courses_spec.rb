@@ -1,4 +1,4 @@
-# spec/requests/todos_spec.rb
+# This file implements a suit of tests for Course API endpoint requests
 require 'rails_helper'
 
 RSpec.describe 'Courses API', type: :request do
@@ -18,7 +18,7 @@ RSpec.describe 'Courses API', type: :request do
   let!(:courses) { create_list(:course, @total) }
 
   # Use the first course of the list created
-  let!(:course_id) {courses.first.id }
+  let!(:course_id) { courses.first.id }
 
   # Test suite for GET /api/v1/courses
   describe 'GET /api/v1/courses' do
@@ -26,7 +26,7 @@ RSpec.describe 'Courses API', type: :request do
     context 'when courses exist' do
 
       # make HTTP get request before each example
-      before { get '/api/v1/courses', params: {}, headers: headers}
+      before { get '/api/v1/courses', params: {}, headers: headers }
 
       it 'returns courses' do
         expect(json).not_to be_empty
@@ -49,7 +49,7 @@ RSpec.describe 'Courses API', type: :request do
       end
 
       # make HTTP get request before each example
-      before { get '/api/v1/courses', params: {}, headers: headers}
+      before { get '/api/v1/courses', params: {}, headers: headers }
 
       it 'not returns courses' do
         expect(json).to be_empty
@@ -91,7 +91,8 @@ RSpec.describe 'Courses API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find Course with 'id'=#{course_id}/)
+        expect(response.body)
+          .to match(/Couldn't find Course with 'id'=#{course_id}/)
       end
 
     end
@@ -141,7 +142,9 @@ RSpec.describe 'Courses API', type: :request do
         }.to_json
       end
 
-      before { post '/api/v1/courses', params: invalid_attributes, headers: headers }
+      before(:each) do
+        post '/api/v1/courses', params: invalid_attributes, headers: headers
+      end
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -178,7 +181,13 @@ RSpec.describe 'Courses API', type: :request do
 
     context 'when the record exists' do
 
-      before { put "/api/v1/courses/#{course_id}", params: valid_attributes, headers: headers }
+      before(:each) do
+        put(
+          "/api/v1/courses/#{course_id}",
+          params: valid_attributes,
+          headers: headers
+        )
+      end
 
       # Test if the attributes are changed
       it 'contains the new name' do
@@ -205,7 +214,13 @@ RSpec.describe 'Courses API', type: :request do
     context 'when attributes are not valid' do
 
       # testing sent an empty name
-      before { put "/api/v1/courses/#{course_id}", params: { name: nil }.to_json, headers: headers }
+      before(:each) do
+        put(
+          "/api/v1/courses/#{course_id}",
+          params: { name: nil }.to_json,
+          headers: headers
+        )
+      end
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -227,7 +242,13 @@ RSpec.describe 'Courses API', type: :request do
       # Use an ID not valid
       let(:course_id_false) { 100 }
 
-      before { put "/api/v1/courses/#{course_id_false}", params: valid_attributes, headers: headers}
+      before(:each) do
+        put(
+          "/api/v1/courses/#{course_id_false}",
+          params: valid_attributes,
+          headers: headers
+        )
+      end
 
       it 'not updates the record' do
         expect(@course.name).not_to eq('ISDR20')
@@ -238,7 +259,8 @@ RSpec.describe 'Courses API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find Course with 'id'=#{course_id_false}/)
+        expect(response.body)
+          .to match(/Couldn't find Course with 'id'=#{course_id_false}/)
       end
 
     end
@@ -266,10 +288,16 @@ RSpec.describe 'Courses API', type: :request do
 
     context 'when record not found' do
 
-       # Use an ID not valid
+      # Use an ID not valid
       let(:course_id_false) { 1000 }
 
-      before { delete "/api/v1/courses/#{course_id_false}", params: {}, headers: headers }
+      before(:each) do
+        delete(
+          "/api/v1/courses/#{course_id_false}",
+          params: {},
+          headers: headers
+        )
+      end
 
       it 'returns status code 404' do
         expect(response).to have_http_status(:not_found)

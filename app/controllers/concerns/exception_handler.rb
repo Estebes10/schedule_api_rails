@@ -1,3 +1,5 @@
+# This class raises different custom Exceptions depending of the response of
+# the system.
 module ExceptionHandler
 
   # provides the more graceful `included` method

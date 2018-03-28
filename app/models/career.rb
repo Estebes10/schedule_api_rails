@@ -1,3 +1,5 @@
+# This class represent a entity or object of Career in the database, to store
+# and validate data from objects which are assigned to each student.
 class Career < ApplicationRecord
 
   # Associations

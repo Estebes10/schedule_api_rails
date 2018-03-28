@@ -1,3 +1,5 @@
+# This class represent the cipher and decipher methods to encrypt token for
+# each user who has entered in the system for a limited time.
 class JsonWebToken
 
   # secret to encode and decode token

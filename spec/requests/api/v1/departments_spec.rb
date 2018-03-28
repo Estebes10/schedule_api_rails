@@ -1,3 +1,4 @@
+# This file implements a suit of tests for Department API endpoint requests
 require 'rails_helper'
 
 RSpec.describe 'Departments API', type: :request do
@@ -31,7 +32,7 @@ RSpec.describe 'Departments API', type: :request do
     context 'when departments exist' do
 
       # make HTTP get request before each example
-      before { get '/api/v1/departments', params: {}, headers: headers}
+      before { get '/api/v1/departments', params: {}, headers: headers }
 
       it 'returns departments' do
         expect(json).not_to be_empty
@@ -55,7 +56,7 @@ RSpec.describe 'Departments API', type: :request do
       end
 
       # make HTTP get request before each example
-      before { get '/api/v1/departments', params: {}, headers: headers}
+      before { get '/api/v1/departments', params: {}, headers: headers }
 
       it 'not returns departments' do
         expect(json).to be_empty
@@ -73,11 +74,13 @@ RSpec.describe 'Departments API', type: :request do
   describe 'GET /api/v1/departments/:id' do
 
     # Make request to the URL to get one department
-    before {
-      get "/api/v1/departments/#{department_id}",
-      params: {},
-      headers: headers
-    }
+    before(:each) do
+      get(
+        "/api/v1/departments/#{department_id}",
+        params: {},
+        headers: headers
+      )
+    end
 
     context 'when record exists' do
 
@@ -101,7 +104,8 @@ RSpec.describe 'Departments API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find Department with 'id'=#{department_id}/)
+        expect(response.body)
+          .to match(/Couldn't find Department with 'id'=#{department_id}/)
       end
 
     end
@@ -124,7 +128,9 @@ RSpec.describe 'Departments API', type: :request do
     context 'when request is valid' do
 
       # Make a request before validate if the department is saved correctly
-      before { post '/api/v1/departments', params: valid_attributes, headers: headers }
+      before(:each) do
+        post '/api/v1/departments', params: valid_attributes, headers: headers
+      end
 
       it 'returns the department created' do
         department = Department.last
@@ -150,7 +156,9 @@ RSpec.describe 'Departments API', type: :request do
         }.to_json
       end
 
-      before { post '/api/v1/departments', params: invalid_attributes, headers: headers }
+      before(:each) do
+        post '/api/v1/departments', params: invalid_attributes, headers: headers
+      end
 
       it 'return unprocessable entity code' do
         expect(response).to have_http_status(422)
@@ -185,11 +193,13 @@ RSpec.describe 'Departments API', type: :request do
     context 'when the record exists' do
 
       # Make request with the parameters
-      before {
-        put "/api/v1/departments/#{department_id}",
-        params: valid_attributes,
-        headers: headers
-      }
+      before(:each) do
+        put(
+          "/api/v1/departments/#{department_id}",
+          params: valid_attributes,
+          headers: headers
+        )
+      end
 
       # Test if the attributes are changed
       it 'contains the new name' do
@@ -216,13 +226,13 @@ RSpec.describe 'Departments API', type: :request do
     context 'when attributes are not valid' do
 
       # testing sent an empty name
-      before {
-        put "/api/v1/departments/#{department_id}",
-        params: {
-          name: nil
-        }.to_json,
-        headers: headers
-      }
+      before(:each) do
+        put(
+          "/api/v1/departments/#{department_id}",
+          params: { name: nil }.to_json,
+          headers: headers
+        )
+      end
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -245,11 +255,13 @@ RSpec.describe 'Departments API', type: :request do
       let(:id_false) { 100 }
 
       # request with a false ID
-      before {
-        put "/api/v1/departments/#{id_false}",
-        params: valid_attributes,
-        headers: headers
-      }
+      before(:each) do
+        put(
+          "/api/v1/departments/#{id_false}",
+          params: valid_attributes,
+          headers: headers
+        )
+      end
 
       it 'not updates the record' do
         expect(@department.name).not_to eq('Departamento de Tecnologias')
@@ -271,11 +283,13 @@ RSpec.describe 'Departments API', type: :request do
       # Use no valid headers (token not given)
       let(:no_token) { invalid_headers }
 
-      before {
-        put "/api/v1/departments/#{department_id}",
-        params: valid_attributes,
-        headers: no_token
-      }
+      before(:each) do
+        put(
+          "/api/v1/departments/#{department_id}",
+          params: valid_attributes,
+          headers: no_token
+        )
+      end
 
       it 'returns status code 404' do
         expect(response).to have_http_status(422)

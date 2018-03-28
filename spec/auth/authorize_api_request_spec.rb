@@ -1,3 +1,5 @@
+# This file implements a suit of test to autorize request for users with valid
+# authentication.
 require 'rails_helper'
 
 RSpec.describe AuthorizeApiRequest do
@@ -6,11 +8,11 @@ RSpec.describe AuthorizeApiRequest do
   let(:user) { create(:user) }
 
   # Mock `Authorization` header
-  let(:header){
+  let(:header) do
     {
-      'Authorization' => token_generator(user.id)
+      'Authorization' => token_generator(user.id),
     }
-  }
+  end
 
   # Invalid request subject
   subject(:invalid_request_obj) { described_class.new({}) }

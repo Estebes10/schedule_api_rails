@@ -1,3 +1,5 @@
+# This class represent a entity or object of Semester in the database, to store
+# and validate data, perform business logic and otherwise do the heavy lifting.
 class Semester < ApplicationRecord
 
   # Associations

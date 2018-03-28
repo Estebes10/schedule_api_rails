@@ -1,3 +1,5 @@
+# This class represent a entity or object of User in the database, to store and
+# validate data, perform business logic and otherwise do the heavy lifting.
 class User < ApplicationRecord
 
   # Associations
@@ -45,8 +47,9 @@ class User < ApplicationRecord
     presence: true
 
   validates :status,
-    inclusion: { in: [ true, false ] }
+    inclusion: { in: [true, false] }
 
+  # public class methods
   def role?
     roles.any?
   end

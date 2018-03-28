@@ -1,3 +1,5 @@
+# This file executes a generator to create a fake Department object with fake
+# data
 FactoryGirl.define do
 
   factory :department do

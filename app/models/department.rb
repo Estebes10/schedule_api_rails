@@ -1,3 +1,6 @@
+# This class represent a entity or object of Department in the database, to
+# store and validate data, perform business logic and otherwise do the heavy
+# lifting.
 class Department < ApplicationRecord
 
   # Associations
