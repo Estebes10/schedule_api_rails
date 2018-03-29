@@ -5,7 +5,7 @@ class CreateRoles < ActiveRecord::Migration[5.0]
       t.string  :code,        limit: 32,   null: false
       t.string  :name,        limit: 128,  null: false
       t.string  :description, limit: 512,  null: false
-      t.boolean :status,                   null: false
+      t.boolean :status,                   null: false, default: true
 
       t.timestamps
     end

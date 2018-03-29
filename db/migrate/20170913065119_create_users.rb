@@ -10,7 +10,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string  :phone,           limit: 32,  null: false
       t.string  :gender,          limit: 16,  null: false
       t.date    :birthday,                    null: false
-      t.boolean :status,                      null: false
+      t.boolean :status,                      null: false, default: true
 
       t.timestamps
     end

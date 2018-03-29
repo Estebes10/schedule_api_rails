@@ -25,13 +25,13 @@ ActiveRecord::Schema.define(version: 20171110051614) do
   end
 
   create_table "campus", force: :cascade do |t|
-    t.string   "name",        limit: 128, null: false
-    t.string   "code",        limit: 32,  null: false
+    t.string   "name",        limit: 128,                null: false
+    t.string   "code",        limit: 32,                 null: false
     t.string   "description", limit: 512
-    t.string   "state",       limit: 64,  null: false
-    t.boolean  "status",                  null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "state",       limit: 64,                 null: false
+    t.boolean  "status",                  default: true, null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.index ["code"], name: "index_campus_on_code", unique: true, using: :btree
     t.index ["name"], name: "index_campus_on_name", unique: true, using: :btree
   end
@@ -64,25 +64,25 @@ ActiveRecord::Schema.define(version: 20171110051614) do
   end
 
   create_table "departments", force: :cascade do |t|
-    t.string   "name",        limit: 128, null: false
-    t.string   "code",        limit: 32,  null: false
+    t.string   "name",        limit: 128,                null: false
+    t.string   "code",        limit: 32,                 null: false
     t.string   "description", limit: 512
-    t.boolean  "status",                  null: false
+    t.boolean  "status",                  default: true, null: false
     t.integer  "campu_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.index ["campu_id"], name: "index_departments_on_campu_id", using: :btree
     t.index ["code"], name: "index_departments_on_code", unique: true, using: :btree
     t.index ["name"], name: "index_departments_on_name", unique: true, using: :btree
   end
 
   create_table "roles", force: :cascade do |t|
-    t.string   "code",        limit: 32,  null: false
-    t.string   "name",        limit: 128, null: false
-    t.string   "description", limit: 512, null: false
-    t.boolean  "status",                  null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "code",        limit: 32,                 null: false
+    t.string   "name",        limit: 128,                null: false
+    t.string   "description", limit: 512,                null: false
+    t.boolean  "status",                  default: true, null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.index ["code"], name: "index_roles_on_code", unique: true, using: :btree
   end
 
@@ -96,38 +96,38 @@ ActiveRecord::Schema.define(version: 20171110051614) do
   end
 
   create_table "semesters", force: :cascade do |t|
-    t.integer  "semester_number",  null: false
-    t.boolean  "status",           null: false
+    t.integer  "semester_number",                 null: false
+    t.boolean  "status",           default: true, null: false
     t.integer  "study_program_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.index ["semester_number"], name: "index_semesters_on_semester_number", unique: true, using: :btree
     t.index ["study_program_id"], name: "index_semesters_on_study_program_id", using: :btree
   end
 
   create_table "study_programs", force: :cascade do |t|
     t.integer  "career_id"
-    t.string   "name",        limit: 128, null: false
+    t.string   "name",        limit: 128,                null: false
     t.string   "description", limit: 512
-    t.boolean  "status",                  null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.boolean  "status",                  default: true, null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.index ["career_id"], name: "index_study_programs_on_career_id", using: :btree
     t.index ["name"], name: "index_study_programs_on_name", unique: true, using: :btree
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name",            limit: 128, null: false
-    t.string   "last_name",       limit: 128, null: false
-    t.string   "id_college",      limit: 16,  null: false
-    t.string   "password_digest",             null: false
-    t.string   "email",           limit: 64,  null: false
-    t.string   "phone",           limit: 32,  null: false
-    t.string   "gender",          limit: 16,  null: false
-    t.date     "birthday",                    null: false
-    t.boolean  "status",                      null: false
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.string   "name",            limit: 128,                null: false
+    t.string   "last_name",       limit: 128,                null: false
+    t.string   "id_college",      limit: 16,                 null: false
+    t.string   "password_digest",                            null: false
+    t.string   "email",           limit: 64,                 null: false
+    t.string   "phone",           limit: 32,                 null: false
+    t.string   "gender",          limit: 16,                 null: false
+    t.date     "birthday",                                   null: false
+    t.boolean  "status",                      default: true, null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
