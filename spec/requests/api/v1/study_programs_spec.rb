@@ -184,7 +184,7 @@ RSpec.describe 'Study Programs API', type: :request do
       before(:each) do
         post(
           "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs",
-          params: { name: 'ISC18' }.to_json,
+          params: { description: 'Un plan de estudios no válido' }.to_json,
           headers: headers
         )
       end
@@ -195,7 +195,7 @@ RSpec.describe 'Study Programs API', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Status is not included in the list/)
+          .to match(/Validation failed: Name can't be blank/)
       end
 
     end
