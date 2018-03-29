@@ -9,6 +9,24 @@ RSpec.describe 'Courses API', type: :request do
   # authorize request
   let(:headers) { valid_headers }
 
+  # create deparment
+  let(:department) { create(:department) }
+
+  # catch the ID of department to use in the URL
+  let(:department_id) { department.id }
+
+  # create deparment
+  let!(:career) { create(:career, department_id: department_id) }
+
+  # catch the ID of department to use in the URL
+  let(:career_id) { career.id }
+
+  # create deparment
+  let!(:study_program) { create(:study_program, career_id: career_id) }
+
+  # catch the ID of department to use in the URL
+  let(:study_program_id) { study_program.id }
+
   # Initialize 40 records of courses
   before(:each) do
     @total = 40
@@ -20,13 +38,21 @@ RSpec.describe 'Courses API', type: :request do
   # Use the first course of the list created
   let!(:course_id) { courses.first.id }
 
-  # Test suite for GET /api/v1/courses
-  describe 'GET /api/v1/courses' do
+  # Test suite for GET
+  # /api/v1/departments/:department_id/careers/:career_id/study_programs/:study_program_id/courses
+  describe 'GET /api/v1/departments/:department_id/careers/:career_id/' \
+    'study_programs/:study_program_id/courses' do
 
     context 'when courses exist' do
 
       # make HTTP get request before each example
-      before { get '/api/v1/courses', params: {}, headers: headers }
+      before(:each) do
+        get(
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses",
+          params: {},
+          headers: headers
+        )
+      end
 
       it 'returns courses' do
         expect(json).not_to be_empty
@@ -49,7 +75,13 @@ RSpec.describe 'Courses API', type: :request do
       end
 
       # make HTTP get request before each example
-      before { get '/api/v1/courses', params: {}, headers: headers }
+      before(:each) do
+        get(
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses",
+          params: {},
+          headers: headers
+        )
+      end
 
       it 'not returns courses' do
         expect(json).to be_empty
@@ -63,11 +95,19 @@ RSpec.describe 'Courses API', type: :request do
 
   end
 
-  # Test suite for GET api/v1/courses/:id
-  describe 'GET /api/v1/courses/:id' do
+  # Test suite for GET
+  # /api/v1/departments/:department_id/careers/:career_id/study_programs/:study_program_id/courses/:id
+  describe 'GET /api/v1/departments/:department_id/careers/:career_id/' \
+    'study_programs/:study_program_id/courses/:id' do
 
     # Make request to the URL to get one course
-    before { get "/api/v1/courses/#{course_id}", params: {}, headers: headers }
+    before(:each) do
+      get(
+        "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses/#{course_id}",
+        params: {},
+        headers: headers
+      )
+    end
 
     context 'when record exists' do
 
@@ -99,8 +139,10 @@ RSpec.describe 'Courses API', type: :request do
 
   end
 
-  # Test suite for POST /courses
-  describe 'POST /api/v1/courses' do
+  # Test suite for POST
+  # /api/v1/departments/:department_id/careers/:career_id/study_programs/:study_program_id/courses
+  describe 'POST /api/v1/departments/:department_id/careers/:career_id/' \
+    'study_programs/:study_program_id/courses' do
 
     # valid payload
     let(:valid_attributes) do
@@ -117,7 +159,13 @@ RSpec.describe 'Courses API', type: :request do
 
     context 'when the request is valid' do
 
-      before { post '/api/v1/courses', params: valid_attributes, headers: headers }
+      before(:each) do
+        post(
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses",
+          params: valid_attributes,
+          headers: headers
+        )
+      end
 
       it 'returns the course created' do
         course = Course.last
@@ -143,7 +191,11 @@ RSpec.describe 'Courses API', type: :request do
       end
 
       before(:each) do
-        post '/api/v1/courses', params: invalid_attributes, headers: headers
+        post(
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses",
+          params: invalid_attributes,
+          headers: headers
+        )
       end
 
       it 'returns status code 422' do
@@ -159,8 +211,10 @@ RSpec.describe 'Courses API', type: :request do
 
   end
 
-  # Test suite for PUT /api/v1/courses/:id
-  describe 'PUT /api/v1/courses/:id' do
+  # Test suite for PUT
+  # /api/v1/departments/:department_id/careers/:career_id/study_programs/:study_program_id/courses/:id
+  describe 'PUT /api/v1/departments/:department_id/careers/:career_id/' \
+    'study_programs/:study_program_id/courses/:id' do
 
     # Set of valid attributes to change one record of courses
     let(:valid_attributes) do
@@ -183,7 +237,7 @@ RSpec.describe 'Courses API', type: :request do
 
       before(:each) do
         put(
-          "/api/v1/courses/#{course_id}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses/#{course_id}",
           params: valid_attributes,
           headers: headers
         )
@@ -216,7 +270,7 @@ RSpec.describe 'Courses API', type: :request do
       # testing sent an empty name
       before(:each) do
         put(
-          "/api/v1/courses/#{course_id}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses/#{course_id}",
           params: { name: nil }.to_json,
           headers: headers
         )
@@ -244,7 +298,7 @@ RSpec.describe 'Courses API', type: :request do
 
       before(:each) do
         put(
-          "/api/v1/courses/#{course_id_false}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses/#{course_id_false}",
           params: valid_attributes,
           headers: headers
         )
@@ -267,13 +321,19 @@ RSpec.describe 'Courses API', type: :request do
 
   end
 
-  # Test suite for DELETE /courses/:id
-  describe 'DELETE /api/v1/courses/:id' do
+  # Test suite for DELETE
+  # /api/v1/departments/:department_id/careers/:career_id/study_programs/:study_program_id/courses/:id
+  describe 'DELETE /api/v1/departments/:department_id/careers/:career_id/' \
+    'study_programs/:study_program_id/courses/:id' do
 
     context 'when record exists' do
 
       before(:each) do
-        delete "/api/v1/courses/#{course_id}", params: {}, headers: headers
+        delete(
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses/#{course_id}",
+          params: {},
+          headers: headers
+        )
       end
 
       it 'returns status code 200' do
@@ -293,7 +353,7 @@ RSpec.describe 'Courses API', type: :request do
 
       before(:each) do
         delete(
-          "/api/v1/courses/#{course_id_false}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses/#{course_id_false}",
           params: {},
           headers: headers
         )
