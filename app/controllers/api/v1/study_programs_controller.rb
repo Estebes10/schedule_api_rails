@@ -5,12 +5,14 @@ module Api::V1
 
   class StudyProgramsController < ApplicationController
 
+    before_action :find_career
+
     before_action :find_study_program,
       only: [:show, :update, :destroy]
 
     def index
       # Get all study programs
-      @study_programs = StudyProgram.all
+      @study_programs = @career.study_programs
 
       # returns all studyPrograms objects
       if @study_programs
@@ -37,7 +39,7 @@ module Api::V1
     end
 
     def create
-      if @study_program = StudyProgram.create!(creation_attributes)
+      if @study_program = @career.study_programs.create!(creation_attributes)
         response = {
           message: Message.record_created(@study_program.class.name),
           study_program: @study_program,
@@ -89,7 +91,11 @@ module Api::V1
     end
 
     def find_study_program
-      @study = StudyProgram.find(params[:id])
+      @study = @career.study_programs.find_by!(id: params[:id]) if @career
+    end
+
+    def find_career
+      @career = Career.find(params[:career_id])
     end
 
   end

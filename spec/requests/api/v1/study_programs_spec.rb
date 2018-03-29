@@ -6,7 +6,17 @@ RSpec.describe 'Study Programs API', type: :request do
   # create a user to test
   let(:user) { create(:user) }
 
-  let!(:career) { create(:career) }
+  # create deparment
+  let(:department) { create(:department) }
+
+  # catch the ID of department to use in the URL
+  let(:department_id) { department.id }
+
+  # create deparment
+  let!(:career) { create(:career, department_id: department_id) }
+
+  # catch the ID of department to use in the URL
+  let(:career_id) { career.id }
 
   # Initialize 10 records of study programs
   before(:each) do
@@ -28,13 +38,21 @@ RSpec.describe 'Study Programs API', type: :request do
   # authorize request
   let(:headers) { valid_headers }
 
-  # Test suite for GET /api/v1/study_programs
-  describe 'GET /api/v1/study_programs' do
+  # Test suite for
+  # GET /api/v1/departments/:department_id/careers/:career_id/study_programs
+  describe 'GET /api/v1/departments/:department_id/careers/:career_id/' \
+    'study_programs' do
 
     context 'when study programs exist' do
 
       # make HTTP get request before each example
-      before { get '/api/v1/study_programs', params: {}, headers: headers }
+      before(:each) do
+        get(
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs",
+          params: {},
+          headers: headers
+        )
+      end
 
       it 'returns study programs' do
         # Note `json` is a custom helper to parse JSON responses
@@ -58,7 +76,13 @@ RSpec.describe 'Study Programs API', type: :request do
       end
 
       # make HTTP get request before each example
-      before { get '/api/v1/study_programs', params: {}, headers: headers }
+      before(:each) do
+        get(
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs",
+          params: {},
+          headers: headers
+        )
+      end
 
       it 'not returns study programs' do
         expect(json).to be_empty
@@ -72,12 +96,18 @@ RSpec.describe 'Study Programs API', type: :request do
 
   end
 
-  # Test suite for GET /study_programs/:id
-  describe 'GET /api/v1/study_programs/:id' do
+  # Test suite for GET
+  # /api/v1/departments/:department_id/careers/:career_id/study_programs/:id
+  describe 'GET /api/v1/departments/department_id/careers/career_id/' \
+    'study_programs/:id' do
 
     # Make request to the URL to get study program
     before(:each) do
-      get "/api/v1/study_programs/#{study_id}", params: {}, headers: headers
+      get(
+        "/api/v1/departments/#{department_id}/careers/#{career_id}//study_programs/#{study_id}",
+        params: {},
+        headers: headers
+      )
     end
 
     context 'when the record exists' do
@@ -102,16 +132,17 @@ RSpec.describe 'Study Programs API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body)
-          .to match(/Couldn't find StudyProgram with 'id'=#{study_id}/)
+        expect(response.body).to include("Couldn't find StudyProgram")
       end
 
     end
 
   end
 
-  # Test suite for POST /study_programs
-  describe 'POST /api/v1/study_programs' do
+  # Test suite for POST
+  # /api/v1/departments/department_id/careers/career_id/study_programs
+  describe 'POST /api/v1/departments/department_id/careers/career_id/' \
+    'study_programs' do
 
     # valid payload
     let(:valid_attributes) do
@@ -129,7 +160,7 @@ RSpec.describe 'Study Programs API', type: :request do
 
       before(:each) do
         post(
-          '/api/v1/study_programs',
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs",
           params: valid_attributes,
           headers: headers
         )
@@ -152,7 +183,7 @@ RSpec.describe 'Study Programs API', type: :request do
       # Only one required attribute is given
       before(:each) do
         post(
-          '/api/v1/study_programs',
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs",
           params: { name: 'ISC18' }.to_json,
           headers: headers
         )
@@ -164,15 +195,17 @@ RSpec.describe 'Study Programs API', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Career must exist, Status is not included in the list/)
+          .to match(/Validation failed: Status is not included in the list/)
       end
 
     end
 
   end
 
-  # Test suite for PUT /study_programs/:id
-  describe 'PUT /api/v1/study_programs/:id' do
+  # Test suite for PUT
+  # /api/v1/departments/department_id/careers/career_id/study_programs/:id
+  describe 'PUT /api/v1/departments/department_id/careers/career_id/' \
+    'study_programs/:id' do
 
     let(:valid_attributes) do
       {
@@ -192,7 +225,7 @@ RSpec.describe 'Study Programs API', type: :request do
 
       before(:each) do
         put(
-          "/api/v1/study_programs/#{study_id}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_id}",
           params: valid_attributes,
           headers: headers
         )
@@ -223,7 +256,7 @@ RSpec.describe 'Study Programs API', type: :request do
 
       before(:each) do
         put(
-          "/api/v1/study_programs/#{study_id}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_id}",
           params: { name: nil }.to_json,
           headers: headers
         )
@@ -250,7 +283,7 @@ RSpec.describe 'Study Programs API', type: :request do
 
       before(:each) do
         put(
-          "/api/v1/study_programs/#{study_id_false}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_id_false}",
           params: valid_attributes,
           headers: headers
         )
@@ -265,22 +298,23 @@ RSpec.describe 'Study Programs API', type: :request do
       end
 
       it 'returns a not found message' do
-        expect(response.body)
-          .to match(/Couldn't find StudyProgram with 'id'=#{study_id_false}/)
+        expect(response.body).to include("Couldn't find StudyProgram")
       end
 
     end
 
   end
 
-  # Test suite for DELETE /study_programs/:id
-  describe 'DELETE /api/v1/study_programs/:id' do
+  # Test suite for DELETE
+  # /api/v1/departments/department_id/careers/career_id/study_programs/:id
+  describe 'DELETE /api/v1/departments/department_id/careers/career_id/' \
+    'study_programs/:id' do
 
     context 'when record found' do
 
       before(:each) do
         delete(
-          "/api/v1/study_programs/#{study_id}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_id}",
           params: {},
           headers: headers
         )
@@ -303,7 +337,7 @@ RSpec.describe 'Study Programs API', type: :request do
 
       before(:each) do
         delete(
-          "/api/v1/study_programs/#{study_id_false}",
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_id_false}",
           params: {},
           headers: headers
         )
