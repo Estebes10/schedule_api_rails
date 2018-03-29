@@ -6,7 +6,11 @@ class StudyProgram < ApplicationRecord
   # Associations
   belongs_to :career
 
-  has_many :semesters
+  # Associations
+  has_many :study_program_courses
+
+  has_many :courses,
+    through: :study_program_courses
 
   # Attributes validation
   validates :name,

@@ -7,6 +7,6 @@ class StudyProgramSerializer < ActiveModel::Serializer
   attributes :id, :name, :description, :status, :created_at, :updated_at
 
   # model association to serialize
-  has_many :semesters
+  has_many :courses
 
 end

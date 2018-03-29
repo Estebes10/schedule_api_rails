@@ -1,8 +1,8 @@
 # This file implements a suit of tests to validate associations between courses
-# and semesters
+# and study programs
 require 'rails_helper'
 
-RSpec.describe SemesterCourse, type: :model do
+RSpec.describe StudyProgramCourse, type: :model do
 
   # Test associations
   it 'belong to courses' do
@@ -10,8 +10,8 @@ RSpec.describe SemesterCourse, type: :model do
     expect(assc.macro).to eq(:belongs_to)
   end
 
-  it 'belong to semesters' do
-    assc = described_class.reflect_on_association(:semester)
+  it 'belong to study programs' do
+    assc = described_class.reflect_on_association(:study_program)
     expect(assc.macro).to eq(:belongs_to)
   end
 

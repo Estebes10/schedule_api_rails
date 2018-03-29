@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171110051614) do
+ActiveRecord::Schema.define(version: 20180329130014) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,23 +86,14 @@ ActiveRecord::Schema.define(version: 20171110051614) do
     t.index ["code"], name: "index_roles_on_code", unique: true, using: :btree
   end
 
-  create_table "semester_courses", force: :cascade do |t|
-    t.integer  "semester_id"
-    t.integer  "course_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["course_id"], name: "index_semester_courses_on_course_id", using: :btree
-    t.index ["semester_id"], name: "index_semester_courses_on_semester_id", using: :btree
-  end
-
-  create_table "semesters", force: :cascade do |t|
-    t.integer  "semester_number",                 null: false
-    t.boolean  "status",           default: true, null: false
+  create_table "study_program_courses", force: :cascade do |t|
+    t.integer  "semester_number",  null: false
     t.integer  "study_program_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.index ["semester_number"], name: "index_semesters_on_semester_number", unique: true, using: :btree
-    t.index ["study_program_id"], name: "index_semesters_on_study_program_id", using: :btree
+    t.integer  "course_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["course_id"], name: "index_study_program_courses_on_course_id", using: :btree
+    t.index ["study_program_id"], name: "index_study_program_courses_on_study_program_id", using: :btree
   end
 
   create_table "study_programs", force: :cascade do |t|
@@ -134,7 +125,6 @@ ActiveRecord::Schema.define(version: 20171110051614) do
   add_foreign_key "assignments", "roles"
   add_foreign_key "assignments", "users"
   add_foreign_key "departments", "campus"
-  add_foreign_key "semester_courses", "courses"
-  add_foreign_key "semester_courses", "semesters"
-  add_foreign_key "semesters", "study_programs"
+  add_foreign_key "study_program_courses", "courses"
+  add_foreign_key "study_program_courses", "study_programs"
 end
