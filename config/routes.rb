@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   # Endpoint to create new student user
   post 'signup', to: 'users#create'
 
+  # public endpoint to get career in public page
+  resources :careers, only: %I[index]
+
   # endpoints following /api/
   namespace :api do
 
