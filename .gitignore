@@ -16,6 +16,13 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+*~
+*.swp
+
+.env
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# Ignore the configuration of database
+/config/database.yml
