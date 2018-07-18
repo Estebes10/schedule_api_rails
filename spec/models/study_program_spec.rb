@@ -51,8 +51,9 @@ RSpec.describe StudyProgram, type: :model do
 
   # Test associations
 
-  # validate association with semester
-  it { should have_many(:semesters) }
+  # validate association with courses
+  it { should have_many(:study_program_courses) }
+  it { should have_many(:courses).through(:study_program_courses) }
 
   it 'has many students'
 

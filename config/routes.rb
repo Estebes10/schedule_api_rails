@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  apipie
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   # Endpoint to login a user register previously
@@ -26,17 +28,19 @@ Rails.application.routes.draw do
 
           # endpoints following
           # /api/v1/departments/:department_id/careers/:career_id/study_programs
-          resources :study_programs, only: %I[index show create update destroy ] do
+          resources :study_programs, only: %I[index show create update destroy]
 
-            # endpoints following
-            # /api/v1/departments/:department_id/careers/:career_id/study_programs/:study_program_id/courses
-            resources :courses, only: %I[index show create update destroy]
-
-          end
+          # endpoints following
+          # /api/v1/departments/:department_id/careers/:career_id/study_programs/:id/assign_course
+          post 'study_programs/:id/assign_course', to: 'study_programs#assign_course'
 
         end
 
       end
+
+      # endpoints following
+      # /api/v1/courses
+      resources :courses, only: %I[index show create update destroy]
 
     end
 

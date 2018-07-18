@@ -39,16 +39,15 @@ RSpec.describe 'Courses API', type: :request do
   let!(:course_id) { courses.first.id }
 
   # Test suite for GET
-  # /api/v1/departments/:department_id/careers/:career_id/study_programs/:study_program_id/courses
-  describe 'GET /api/v1/departments/:department_id/careers/:career_id/' \
-    'study_programs/:study_program_id/courses' do
+  # /api/v1/courses
+  describe 'GET /api/v1/courses' do
 
     context 'when courses exist' do
 
       # make HTTP get request before each example
       before(:each) do
         get(
-          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses",
+          "/api/v1/courses",
           params: {},
           headers: headers
         )
@@ -77,7 +76,7 @@ RSpec.describe 'Courses API', type: :request do
       # make HTTP get request before each example
       before(:each) do
         get(
-          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses",
+          "/api/v1/courses",
           params: {},
           headers: headers
         )
@@ -96,14 +95,13 @@ RSpec.describe 'Courses API', type: :request do
   end
 
   # Test suite for GET
-  # /api/v1/departments/:department_id/careers/:career_id/study_programs/:study_program_id/courses/:id
-  describe 'GET /api/v1/departments/:department_id/careers/:career_id/' \
-    'study_programs/:study_program_id/courses/:id' do
+  # /api/v1/courses/:id
+  describe 'GET /api/v1/courses/:id' do
 
     # Make request to the URL to get one course
     before(:each) do
       get(
-        "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses/#{course_id}",
+        "/api/v1/courses/#{course_id}",
         params: {},
         headers: headers
       )
@@ -140,9 +138,8 @@ RSpec.describe 'Courses API', type: :request do
   end
 
   # Test suite for POST
-  # /api/v1/departments/:department_id/careers/:career_id/study_programs/:study_program_id/courses
-  describe 'POST /api/v1/departments/:department_id/careers/:career_id/' \
-    'study_programs/:study_program_id/courses' do
+  # /api/v1/courses
+  describe 'POST /api/v1/courses' do
 
     # valid payload
     let(:valid_attributes) do
@@ -161,7 +158,7 @@ RSpec.describe 'Courses API', type: :request do
 
       before(:each) do
         post(
-          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses",
+          "/api/v1/courses",
           params: valid_attributes,
           headers: headers
         )
@@ -192,7 +189,7 @@ RSpec.describe 'Courses API', type: :request do
 
       before(:each) do
         post(
-          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses",
+          "/api/v1/courses",
           params: invalid_attributes,
           headers: headers
         )
@@ -212,9 +209,8 @@ RSpec.describe 'Courses API', type: :request do
   end
 
   # Test suite for PUT
-  # /api/v1/departments/:department_id/careers/:career_id/study_programs/:study_program_id/courses/:id
-  describe 'PUT /api/v1/departments/:department_id/careers/:career_id/' \
-    'study_programs/:study_program_id/courses/:id' do
+  # /api/v1/courses/:id
+  describe 'PUT /api/v1/courses/:id' do
 
     # Set of valid attributes to change one record of courses
     let(:valid_attributes) do
@@ -237,7 +233,7 @@ RSpec.describe 'Courses API', type: :request do
 
       before(:each) do
         put(
-          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses/#{course_id}",
+          "/api/v1/courses/#{course_id}",
           params: valid_attributes,
           headers: headers
         )
@@ -270,7 +266,7 @@ RSpec.describe 'Courses API', type: :request do
       # testing sent an empty name
       before(:each) do
         put(
-          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses/#{course_id}",
+          "/api/v1/courses/#{course_id}",
           params: { name: nil }.to_json,
           headers: headers
         )
@@ -298,7 +294,7 @@ RSpec.describe 'Courses API', type: :request do
 
       before(:each) do
         put(
-          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses/#{course_id_false}",
+          "/api/v1/courses/#{course_id_false}",
           params: valid_attributes,
           headers: headers
         )
@@ -322,15 +318,14 @@ RSpec.describe 'Courses API', type: :request do
   end
 
   # Test suite for DELETE
-  # /api/v1/departments/:department_id/careers/:career_id/study_programs/:study_program_id/courses/:id
-  describe 'DELETE /api/v1/departments/:department_id/careers/:career_id/' \
-    'study_programs/:study_program_id/courses/:id' do
+  # /api/v1/courses/:id
+  describe 'DELETE /api/v1/courses/:id' do
 
     context 'when record exists' do
 
       before(:each) do
         delete(
-          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses/#{course_id}",
+          "/api/v1/courses/#{course_id}",
           params: {},
           headers: headers
         )
@@ -353,13 +348,32 @@ RSpec.describe 'Courses API', type: :request do
 
       before(:each) do
         delete(
-          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_program_id}/courses/#{course_id_false}",
+          "/api/v1/courses/#{course_id_false}",
           params: {},
           headers: headers
         )
       end
 
       it 'returns status code 404' do
+        expect(response).to have_http_status(:not_found)
+      end
+
+    end
+
+    context 'when record is assigned to study programs' do
+
+      # assign the course to one study program
+      let!(:course_assigned) { create(:study_program_course, course_id: course_id, study_program_id: study_program_id, semester_number: 1)}
+
+      before(:each) do
+        delete(
+          "/api/v1/courses/#{course_assigned.id}",
+          params: {},
+          headers: headers
+        )
+      end
+
+      it 'returns status code 200' do
         expect(response).to have_http_status(:not_found)
       end
 

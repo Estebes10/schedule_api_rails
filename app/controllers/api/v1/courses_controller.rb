@@ -62,8 +62,16 @@ module Api::V1
 
     def destroy
       if @course
-        if @course.destroy
-          head :ok
+        if !assigned_course(@course)
+          if @course.destroy
+            head :ok
+          end
+        else
+          response = {
+            message: Message.assigned(@course.class.name),
+            course: @course,
+          }
+          json_response(response, :conflict)
         end
       else
         head :not_found
@@ -87,6 +95,10 @@ module Api::V1
     # Get the course with the ID sent in the request
     def find_course
       @course = Course.find(params[:id])
+    end
+
+    def assigned_course(course)
+      return true if StudyProgramCourse.find_by(course_id: course.id)
     end
 
   end

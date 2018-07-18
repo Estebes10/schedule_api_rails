@@ -53,4 +53,13 @@ class Message
     "The #{record} was updated successfully"
   end
 
+  def self.assigned(record = 'record')
+    "The #{record} couldn't be deleted because is currently assigned at least" \
+    " to one study program"
+  end
+
+  def self.successfully_assigned(record = 'record', record2 = 'record')
+    "The #{record} was successfully assigned to the #{record2}"
+  end
+
 end
