@@ -14,3 +14,6 @@ load File.expand_path('../seeds/departments.rb', __FILE__)
 
 # Creates records of users for development environment
 load File.expand_path('../seeds/users.rb', __FILE__)
+
+# Creates the default attributes for the courses
+load File.expand_path('../seeds/attributes.rb', __FILE__)
