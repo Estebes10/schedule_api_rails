@@ -177,7 +177,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jwt
   listen (~> 3.0.5)
-  pg (~> 0.20.0)
+  pg
   puma (~> 3.0)
   rack-cors
   rails (~> 5.0.5)
@@ -189,4 +189,4 @@ DEPENDENCIES
   tzinfo-data
 
 BUNDLED WITH
-   1.15.1
+   1.16.2
