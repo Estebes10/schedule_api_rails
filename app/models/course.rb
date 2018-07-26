@@ -36,4 +36,20 @@ class Course < ApplicationRecord
   validates :status,
     inclusion: { in: [true, false] }
 
+  def dependencies
+    if self.courses.present?
+      @courses = Array.new
+      puts self.courses
+      courses.each do |item|
+        @item = eval(item)
+        @course = Course.find(@item["course_id"])
+        @attribute = Attribute.find(@item["attribute_id"])
+        @courses.push({course: @course, attribute: @attribute})
+      end
+      @courses
+    else
+      []
+    end
+  end
+
 end

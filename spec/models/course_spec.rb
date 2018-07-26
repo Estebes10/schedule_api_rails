@@ -52,6 +52,23 @@ RSpec.describe Course, type: :model do
     expect(course).not_to be_valid
   end
 
+  # Tests for attributes that can be null
+  it 'is valid without associated courses (restriccions o sugestions)' do
+    course.courses = nil
+
+    expect(course).to be_valid
+  end
+
+  # Tests for array attributes
+  it 'is valid if has an array of courses (restriccions o sugestions)' do
+    @course = FactoryGirl.create(:course)
+    @attribute = FactoryGirl.create(:attribute)
+    @courses = [{course_id: @course.id, attribute_id: @attribute.id}]
+    course.courses = @courses
+
+    expect(course).to be_valid
+  end
+
   # Set of tests to validate the length for each attribute
   it 'is not valid if the name given contains more than 128 characters' do
     course.name = 'a' * 129

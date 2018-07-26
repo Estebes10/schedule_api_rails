@@ -6,6 +6,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "#{Faker::Educator.course}#{n}" }
     sequence(:code) { |n| "#{Faker::University.greek_organization}#{n}" }
     description Faker::Lorem.sentence(4)
+    courses     { { } }
     units       Faker::Number.between(3, 15)
     class_hours Faker::Number.between(1, 10)
     lab_hours   Faker::Number.between(1, 10)

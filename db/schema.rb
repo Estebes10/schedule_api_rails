@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20180718063528) do
     t.string   "name",        limit: 128,                null: false
     t.string   "code",        limit: 16,                 null: false
     t.string   "description", limit: 512
+    t.string   "courses",                 default: [],                array: true
     t.integer  "units",                                  null: false
     t.integer  "class_hours",                            null: false
     t.integer  "lab_hours",                              null: false

@@ -27,6 +27,11 @@ RSpec.describe 'Courses API', type: :request do
   # catch the ID of department to use in the URL
   let(:study_program_id) { study_program.id }
 
+  # Create course and attribute to assign in courses association
+  let(:course_aux) { create(:course) }
+
+  let(:attribute_aux) { create(:attribute) }
+
   # Initialize 40 records of courses
   before(:each) do
     @total = 40
@@ -151,6 +156,7 @@ RSpec.describe 'Courses API', type: :request do
         class_hours: 3,
         lab_hours:   0,
         status:      true,
+        courses:     [{ course_id: course_aux.id, attribute_id: attribute_aux.id }],
       }.to_json
     end
 
@@ -164,10 +170,58 @@ RSpec.describe 'Courses API', type: :request do
         )
       end
 
-      it 'returns the course created' do
+      it 'creates the course with the given name' do
         course = Course.last
 
-        expect(course.name).to eq('Programación avanzada')
+        expect(course.name).to eq(JSON.parse(valid_attributes)['name'])
+      end
+
+      it 'creates the course with the given code' do
+        course = Course.last
+
+        expect(course.code).to eq(JSON.parse(valid_attributes)['code'])
+      end
+
+      it 'creates the course with the given description' do
+        course = Course.last
+
+        expect(course.description)
+          .to eq(JSON.parse(valid_attributes)['description'])
+      end
+
+      it 'creates the course with the given units' do
+        course = Course.last
+
+        expect(course.units).to eq(JSON.parse(valid_attributes)['units'])
+      end
+
+      it 'creates the course with the given lab hours class' do
+        course = Course.last
+
+        expect(course.lab_hours).to eq(JSON.parse(valid_attributes)['lab_hours'])
+      end
+
+      it 'creates the course with the given class hours' do
+        course = Course.last
+
+        expect(course.class_hours)
+          .to eq(JSON.parse(valid_attributes)['class_hours'])
+      end
+
+      it 'creates the course with the given status' do
+        course = Course.last
+
+        expect(course.status).to eq(JSON.parse(valid_attributes)['status'])
+      end
+
+      it 'creates the course with the given courses associations' do
+        course = Course.last
+
+        expect(course).to eq(valid_attributes)
+      end
+
+      it 'returns a successfully message' do
+        expect(json['message']).to match(/Great, the Course was created successfully/)
       end
 
       it 'returns status code 201' do
@@ -242,17 +296,44 @@ RSpec.describe 'Courses API', type: :request do
       # Test if the attributes are changed
       it 'contains the new name' do
         @course.reload
-        expect(@course.name).to eq('Microcontroladores')
+        expect(@course.name).to eq(JSON.parse(valid_attributes)['name'])
       end
 
       it 'contains the new code' do
         @course.reload
-        expect(@course.code).to eq('TC10482D')
+        expect(@course.code).to eq(JSON.parse(valid_attributes)['code'])
       end
 
       it 'contains the new description' do
         @course.reload
-        expect(@course.description).to eq('In this course will show new things')
+        expect(@course.description)
+          .to eq(JSON.parse(valid_attributes)['description'])
+      end
+
+      it 'contains the new units value' do
+        @course.reload
+        expect(@course.units).to eq(JSON.parse(valid_attributes)['units'])
+      end
+
+      it 'contains the new units of class hours' do
+        @course.reload
+        expect(@course.class_hours)
+          .to eq(JSON.parse(valid_attributes)['class_hours'])
+      end
+
+      it 'contains the new units of laboratory hours class' do
+        @course.reload
+        expect(@course.lab_hours)
+          .to eq(JSON.parse(valid_attributes)['lab_hours'])
+      end
+
+      it 'contains the new status' do
+        @course.reload
+        expect(@course.status).to eq(JSON.parse(valid_attributes)['status'])
+      end
+
+      it 'returns a successfully message' do
+        expect(json['message']).to match(/The Course was updated successfully/)
       end
 
       it 'returns status code 204' do
