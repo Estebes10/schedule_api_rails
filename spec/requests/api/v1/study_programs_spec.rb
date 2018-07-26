@@ -351,4 +351,72 @@ RSpec.describe 'Study Programs API', type: :request do
 
   end
 
+  # Test suite for DELETE
+  # /api/v1/departments/department_id/careers/career_id/study_programs/:id/unassign_course
+  describe 'DELETE /api/v1/departments/department_id/careers/career_id/' \
+    'study_programs/:id/unassign_course' do
+
+    before(:each) do
+      @course = FactoryGirl.create(:course)
+      StudyProgramCourse.create(course_id: @course.id, study_program_id: study_id, semester_number: 9)
+      @assigned = StudyProgramCourse.count
+    end
+
+    context 'when record found' do
+
+      let(:valid_params) do
+        {
+          course_id: @course.id,
+          study_program_id: study_id
+        }.to_json
+      end
+
+      before(:each) do
+        delete(
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_id}/unassign_course",
+          params: valid_params,
+          headers: headers
+        )
+      end
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'reduce the records of the study_programs table' do
+        expect(StudyProgramCourse.count).to eq(@assigned - 1)
+      end
+
+      it 'returns a successfully message' do
+        expect(json['message']).to match(/The #{@course.class} was unassign to the #{study_programs.first.class}/)
+      end
+
+    end
+
+    context 'when record not found' do
+
+      # Use an ID not valid
+      let(:valid_params) do
+        {
+          course_id: 10000,
+          study_program_id: 100000
+        }.to_json
+      end
+
+      before(:each) do
+        delete(
+          "/api/v1/departments/#{department_id}/careers/#{career_id}/study_programs/#{study_id}/unassign_course",
+          params: {},
+          headers: headers
+        )
+      end
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(:not_found)
+      end
+
+    end
+
+  end
+
 end

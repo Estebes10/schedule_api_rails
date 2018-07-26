@@ -62,4 +62,12 @@ class Message
     "The #{record} was successfully assigned to the #{record2}"
   end
 
+  def self.unassign_record(record = 'record', record2 = 'record')
+    "The #{record} was unassign to the #{record2}"
+  end
+
+  def self.error_occurs(record = 'record')
+    "The #{record} could not be removed because an unexpected error occurs"
+  end
+
 end
