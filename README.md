@@ -1,9 +1,9 @@
 # schedule_api_rails
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a colaborative application that works as backend together with an Angular frontend
+application
 
-Things you may want to cover:
+Application settings:
 
 * Ruby version
   - 2.4.0
@@ -47,7 +47,13 @@ Things you may want to cover:
     rails db:test:prepare
     ```
 
+  * See available endpoints
+  ```shell
+     rails routes
+  ```
+
+## Run tests
 * How to run the test suite
   ```shell
-    bundle exec rspec spec/
+    bundle exec rspec spec/ -fd --order rand
   ```
