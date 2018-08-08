@@ -3,7 +3,7 @@
 # In this file will create one campus and its departments for example use
 
 # Create a campus by default
-@campus = Campu.create(
+@campus = Campu.find_or_create_by(
   name:        'Instituto Tecnológico de Estudios Superior de Monterrey',
   code:        'QRO',
   status:      true,
