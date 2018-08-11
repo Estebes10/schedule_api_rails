@@ -10,6 +10,10 @@
 load File.expand_path('../seeds/roles.rb', __FILE__)
 puts "===============================# Roles loaded #==============================="
 
+# Create the courses for one study program
+load File.expand_path('../seeds/courses.rb', __FILE__)
+puts "=============================# Courses loaded #==============================="
+
 # Creates records of campus and departments for development environment
 load File.expand_path('../seeds/departments.rb', __FILE__)
 puts "============================# Departments loaded #============================"
