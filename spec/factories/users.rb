@@ -1,5 +1,5 @@
 # This file executes a generator to create a fake User object with fake data
-FactoryGirl.define do
+FactoryBot.define do
 
   # Generate a fake record for User model
   factory :user do

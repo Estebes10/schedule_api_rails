@@ -13,20 +13,20 @@
 
 # Create 4 departments associated to the previous campus
 2.times do
-  @department = FactoryGirl.create(:department, campu_id: @campus.id)
+  @department = FactoryBot.create(:department, campu_id: @campus.id)
 
   # Create 4 careers into the department
   3.times do
-    @career = FactoryGirl.create(:career, department_id: @department.id)
+    @career = FactoryBot.create(:career, department_id: @department.id)
 
     # Create 3 study_programs per career
     2.times do
-      @study = FactoryGirl.create(:study_program, career_id: @career.id)
+      @study = FactoryBot.create(:study_program, career_id: @career.id)
 
       # Create 60 courses per study program
       (0..9).each do |i|
         6.times do
-          @course = FactoryGirl.create(:course)
+          @course = FactoryBot.create(:course)
           # Add the course and the study program to the model associated to both
           StudyProgramCourse.create(study_program_id: @study.id, course_id: @course.id, semester_number: i)
         end

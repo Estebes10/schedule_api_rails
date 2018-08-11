@@ -6,7 +6,7 @@ RSpec.describe Campu, type: :model do
 
   subject(:campus) do
     # Returns a campus instance that's not saved
-    FactoryGirl.build(:campu)
+    FactoryBot.build(:campu)
   end
 
   # Test for all valid attributes are given
@@ -68,7 +68,7 @@ RSpec.describe Campu, type: :model do
   it 'is not valid if the name is not unique' do
     # Create a previos record of campuss with the same name and then try to save
     # the new campus built before
-    FactoryGirl.create(:campu, name: campus.name)
+    FactoryBot.create(:campu, name: campus.name)
 
     expect(campus).not_to be_valid
   end
@@ -77,7 +77,7 @@ RSpec.describe Campu, type: :model do
   it 'is not valid if the code is not unique' do
     # Create a previos record of campuss with the same code and then try to save
     # the new campus built before
-    FactoryGirl.create(:campu, code: campus.code)
+    FactoryBot.create(:campu, code: campus.code)
 
     expect(campus).not_to be_valid
   end

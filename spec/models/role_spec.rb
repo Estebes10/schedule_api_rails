@@ -6,7 +6,7 @@ RSpec.describe Role, type: :model do
 
   subject(:role) do
     # Returns a User instance that's not saved
-    FactoryGirl.build(:role)
+    FactoryBot.build(:role)
   end
 
   # Test for all valid attributes are given
@@ -62,7 +62,7 @@ RSpec.describe Role, type: :model do
   it 'is not valid if the name is not unique' do
     # Create a previos record of roles and then try to save the new role built
     # before
-    FactoryGirl.create(:role, code: role.code)
+    FactoryBot.create(:role, code: role.code)
 
     expect(role).not_to be_valid
   end

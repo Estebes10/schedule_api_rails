@@ -6,7 +6,7 @@ RSpec.describe StudyProgram, type: :model do
 
   subject(:study_program) do
     # Returns a StudyProgram instance that's not saved
-    FactoryGirl.build(:study_program)
+    FactoryBot.build(:study_program)
   end
 
   # Test for all valid attributes are given
@@ -44,7 +44,7 @@ RSpec.describe StudyProgram, type: :model do
   it 'is not valid if the name is not unique' do
     # Create a previos record of study_program and then try to save the new
     # study_program with the same name
-    FactoryGirl.create(:study_program, name: study_program.name)
+    FactoryBot.create(:study_program, name: study_program.name)
 
     expect(study_program).not_to be_valid
   end

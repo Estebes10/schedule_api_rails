@@ -1,6 +1,6 @@
 # This class implements a generator to create one record which involves one
 # course and one study_program
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :study_program_course do
     association(:study_program)

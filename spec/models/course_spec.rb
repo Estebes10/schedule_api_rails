@@ -6,7 +6,7 @@ RSpec.describe Course, type: :model do
 
   subject(:course) do
     # Returns a Course instance that's not saved
-    FactoryGirl.build(:course)
+    FactoryBot.build(:course)
   end
 
   # Test for all valid attributes are given
@@ -61,8 +61,8 @@ RSpec.describe Course, type: :model do
 
   # Tests for array attributes
   it 'is valid if has an array of courses (restriccions o sugestions)' do
-    @course = FactoryGirl.create(:course)
-    @attribute = FactoryGirl.create(:attribute)
+    @course = FactoryBot.create(:course)
+    @attribute = FactoryBot.create(:attribute)
     @courses = [{course_id: @course.id, attribute_id: @attribute.id}]
     course.courses = @courses
 
@@ -92,7 +92,7 @@ RSpec.describe Course, type: :model do
   it 'is not valid if the name is not unique' do
     # Create a previos record of courses with the same name and then try to save
     # the new course built before
-    FactoryGirl.create(:course, name: course.name)
+    FactoryBot.create(:course, name: course.name)
 
     expect(course).not_to be_valid
   end
@@ -101,7 +101,7 @@ RSpec.describe Course, type: :model do
   it 'is not valid if the code is not unique' do
     # Create a previos record of courses with the same code and then try to save
     # the new course built before
-    FactoryGirl.create(:course, code: course.code)
+    FactoryBot.create(:course, code: course.code)
 
     expect(course).not_to be_valid
   end

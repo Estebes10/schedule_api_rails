@@ -6,7 +6,7 @@ RSpec.describe Department, type: :model do
 
   subject(:department) do
     # Returns a department instance that's not saved
-    FactoryGirl.build(:department)
+    FactoryBot.build(:department)
   end
 
   # Test for all valid attributes are given
@@ -62,7 +62,7 @@ RSpec.describe Department, type: :model do
   it 'is not valid if the name is not unique' do
     # Create a previos record of departments with the same name and then try to
     # save the new department built before
-    FactoryGirl.create(:department, name: department.name)
+    FactoryBot.create(:department, name: department.name)
 
     expect(department).not_to be_valid
   end
@@ -70,7 +70,7 @@ RSpec.describe Department, type: :model do
   it 'is not valid if the code is not unique' do
     # Create a previos record of departments with the same code and then try to
     # save the new department built before
-    FactoryGirl.create(:department, code: department.code)
+    FactoryBot.create(:department, code: department.code)
 
     expect(department).not_to be_valid
   end

@@ -1,5 +1,5 @@
 # This file executes a generator to create a fake Career object with fake data
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :career do
     sequence(:name) { |n| "#{Faker::Company.profession}#{n}" }

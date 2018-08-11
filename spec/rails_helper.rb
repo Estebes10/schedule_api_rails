@@ -50,7 +50,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   # add `FactoryGirl` methods
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
   # Add request directory to test any kind of requests
   # config.include RequestSpecHelper, type: :request

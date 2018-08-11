@@ -6,7 +6,7 @@ RSpec.describe Career, type: :model do
 
   subject(:career) do
     # Returns a career instance that's not saved
-    FactoryGirl.build(:career)
+    FactoryBot.build(:career)
   end
 
   # Test for all valid attributes are given
@@ -56,7 +56,7 @@ RSpec.describe Career, type: :model do
   it 'is not valid if the name is not unique' do
     # Create a previos record of careers with the same name and then try to save
     # the new career built before
-    FactoryGirl.create(:career, name: career.name)
+    FactoryBot.create(:career, name: career.name)
 
     expect(career).not_to be_valid
   end
@@ -65,7 +65,7 @@ RSpec.describe Career, type: :model do
   it 'is not valid if the code is not unique' do
     # Create a previos record of careers with the same code and then try to save
     # the new career built before
-    FactoryGirl.create(:career, code: career.code)
+    FactoryBot.create(:career, code: career.code)
 
     expect(career).not_to be_valid
   end

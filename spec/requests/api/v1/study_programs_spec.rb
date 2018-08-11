@@ -357,7 +357,7 @@ RSpec.describe 'Study Programs API', type: :request do
     'study_programs/:id/unassign_course' do
 
     before(:each) do
-      @course = FactoryGirl.create(:course)
+      @course = FactoryBot.create(:course)
       StudyProgramCourse.create(course_id: @course.id, study_program_id: study_id, semester_number: 9)
       @assigned = StudyProgramCourse.count
     end

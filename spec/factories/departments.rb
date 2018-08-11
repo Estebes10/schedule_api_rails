@@ -1,6 +1,6 @@
 # This file executes a generator to create a fake Department object with fake
 # data
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :department do
     sequence(:name) { |n| "#{Faker::Team.name}#{n}" }

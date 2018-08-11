@@ -6,7 +6,7 @@ RSpec.describe User, type: :model do
 
   subject(:user) do
     # Returns a User instance that's not saved
-    FactoryGirl.build(:user)
+    FactoryBot.build(:user)
   end
 
   # Test for all valid attributes are given
@@ -119,7 +119,7 @@ RSpec.describe User, type: :model do
   it 'is not valid if the email is not unique' do
     # Create a previos record of users and then try to save the new user built
     # before
-    FactoryGirl.create(:user, email: user.email)
+    FactoryBot.create(:user, email: user.email)
 
     expect(user).not_to be_valid
   end
@@ -132,8 +132,8 @@ RSpec.describe User, type: :model do
   describe '.role?' do
 
     before(:each) do
-      @user = FactoryGirl.create(:user)
-      @role = FactoryGirl.create(:role)
+      @user = FactoryBot.create(:user)
+      @role = FactoryBot.create(:role)
     end
 
     it 'verify if the user has one role' do
@@ -152,8 +152,8 @@ RSpec.describe User, type: :model do
   describe '.role_name?' do
 
     before(:each) do
-      @user = FactoryGirl.create(:user)
-      @role = FactoryGirl.create(:role)
+      @user = FactoryBot.create(:user)
+      @role = FactoryBot.create(:role)
     end
 
     after(:all) do

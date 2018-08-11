@@ -4,7 +4,7 @@ RSpec.describe Attribute, type: :model do
 
   subject(:attribute) do
     # Returns a campus instance that's not saved
-    FactoryGirl.build(:attribute)
+    FactoryBot.build(:attribute)
   end
 
   # Test for all valid attributes are given
@@ -62,13 +62,13 @@ RSpec.describe Attribute, type: :model do
   it 'is not valid if the code is not unique' do
     # Create a previos record of attribute and then try to save the new
     # attribute built before
-    FactoryGirl.create(:attribute, code: attribute.code)
+    FactoryBot.create(:attribute, code: attribute.code)
 
     expect(attribute).not_to be_valid
   end
 
   it 'is not valid if the name is not unique' do
-    FactoryGirl.create(:attribute, name: attribute.name)
+    FactoryBot.create(:attribute, name: attribute.name)
 
     expect(attribute).not_to be_valid
   end
