@@ -12,15 +12,15 @@
 )
 
 # Create 4 departments associated to the previous campus
-4.times do
+2.times do
   @department = FactoryGirl.create(:department, campu_id: @campus.id)
 
   # Create 4 careers into the department
-  4.times do
+  3.times do
     @career = FactoryGirl.create(:career, department_id: @department.id)
 
     # Create 3 study_programs per career
-    3.times do
+    2.times do
       @study = FactoryGirl.create(:study_program, career_id: @career.id)
 
       # Create 60 courses per study program

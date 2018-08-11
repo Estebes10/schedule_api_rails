@@ -8,12 +8,16 @@
 
 # Create the roles by default on the system
 load File.expand_path('../seeds/roles.rb', __FILE__)
+puts "===============================# Roles loaded #==============================="
 
 # Creates records of campus and departments for development environment
 load File.expand_path('../seeds/departments.rb', __FILE__)
+puts "============================# Departments loaded #============================"
 
 # Creates records of users for development environment
 load File.expand_path('../seeds/users.rb', __FILE__)
+puts "===============================# Users loaded #==============================="
 
 # Creates the default attributes for the courses
 load File.expand_path('../seeds/attributes.rb', __FILE__)
+puts "============================# Attributes loaded #============================="

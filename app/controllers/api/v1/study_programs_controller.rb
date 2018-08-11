@@ -8,10 +8,13 @@ module Api::V1
     before_action :find_career
 
     before_action :find_study_program,
-      only: [:show, :update, :destroy, :assign_course]
+      only: [:show, :update, :destroy, :assign_course, :unassign_course]
 
     before_action :find_course,
-      only: [:assign_course]
+      only: [:assign_course, :unassign_course]
+
+    before_action :find_assigned_course,
+      only: [:unassign_course]
 
     def index
       # Get all study programs
@@ -32,7 +35,7 @@ module Api::V1
       if @study
         response = {
           study_program: @study,
-          courses: @study.courses.count,
+          courses: @study.study_program_courses,
         }
         json_response(response)
       # send 404 when the ID not exists
@@ -80,7 +83,7 @@ module Api::V1
       end
     end
 
-    # DELETE /study_programs/:id/assign_course
+    # POST /study_programs/:id/assign_course
     def assign_course
       if @assign = StudyProgramCourse.create!(assign_attributes)
         response = {
@@ -90,6 +93,27 @@ module Api::V1
         json_response(response, :ok)
       else
         json_response(@assign, :unprocessable_entity)
+      end
+    end
+
+    # DELETE /study_programs/:id/unassign
+    # Params: course_id, study_program_id
+    def unassign_course
+      if params[:course_id] && params[:study_program_id]
+        if @course_assigned
+          if @course_assigned.destroy
+            response = {
+              message: Message.unassign_record(@course.class.name, @study.class.name),
+            }
+            json_response(response, :ok)
+          else
+            json_response(Message.error_occurs(@course_assigned), :unprocessable_entity)
+          end
+        else
+          json_response(@course_assigned, :not_found)
+        end
+      else
+        json_response({ message: 'Params missing check that Course ID and study program ID are present'}, :unprocessable_entity)
       end
     end
 
@@ -127,6 +151,10 @@ module Api::V1
     # find course to be assigned
     def find_course
       @course = Course.find(params[:course_id])
+    end
+
+    def find_assigned_course
+      @course_assigned = StudyProgramCourse.find_by!(course_id: params[:course_id], study_program_id: params[:study_program_id])
     end
 
   end

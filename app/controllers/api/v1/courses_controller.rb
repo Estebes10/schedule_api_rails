@@ -88,7 +88,8 @@ module Api::V1
         :units,
         :class_hours,
         :lab_hours,
-        :status
+        :status,
+        { :courses => [:course_id, :attribute_id] }
       )
     end
 

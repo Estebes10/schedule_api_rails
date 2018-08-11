@@ -5,6 +5,7 @@ class CreateCourses < ActiveRecord::Migration[5.0]
       t.string  :name,        limit: 128, null: false
       t.string  :code,        limit: 16,  null: false
       t.string  :description, limit: 512
+      t.string  :courses,                              default: [],   array: true
       t.integer :units,                   null: false
       t.integer :class_hours,             null: false
       t.integer :lab_hours,               null: false

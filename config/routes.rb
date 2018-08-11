@@ -34,6 +34,9 @@ Rails.application.routes.draw do
           # /api/v1/departments/:department_id/careers/:career_id/study_programs/:id/assign_course
           post 'study_programs/:id/assign_course', to: 'study_programs#assign_course'
 
+          # /api/v1/departments/:department_id/careers/:career_id/study_programs/:id/unassign_course
+          delete 'study_programs/:id/unassign_course', to: 'study_programs#unassign_course'
+
         end
 
       end
