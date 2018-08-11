@@ -217,7 +217,7 @@ RSpec.describe 'Courses API', type: :request do
       it 'creates the course with the given courses associations' do
         course = Course.last
 
-        expect(course).to eq(valid_attributes)
+        expect(course.courses).to eq(JSON.parse(valid_attributes)['courses'])
       end
 
       it 'returns a successfully message' do
