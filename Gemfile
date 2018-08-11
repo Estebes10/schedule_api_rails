@@ -49,7 +49,7 @@ group :development, :test do
   gem 'rails-controller-testing'
 
   # Fixtures replacement with a straightforward definition syntax
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '~> 4.0'
 
   # Generate fake data
   gem 'faker'
