@@ -22,4 +22,28 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
       headers: :any,
       methods: %i(get post put patch delete options head)
   end
+
+  allow do
+    origins 'https://schedule-e0f93.firebaseapp.com'
+
+    resource '*',
+      headers: :any,
+      methods: %i(get post put patch delete options head)
+  end
+
+  allow do
+    origins 'https://juangro.github.io/Schedule-Front-End'
+
+    resource '*',
+      headers: :any,
+      methods: %i(get post put patch delete options head)
+  end
+
+  allow do
+    origins 'https://schedule-front-end.herokuapp.com/'
+
+    resource '*',
+      headers: :any,
+      methods: %i(get post put patch delete options head)
+  end
 end
