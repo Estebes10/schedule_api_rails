@@ -24,7 +24,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   end
 
   allow do
-    origins 'https://schedule-e0f93.firebaseapp.com'
+    origins 'https://juangro.github.io/Schedule-Front-End'
 
     resource '*',
       headers: :any,
@@ -32,7 +32,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   end
 
   allow do
-    origins 'https://juangro.github.io/Schedule-Front-End'
+    origins 'https://schedule-e0f93.firebaseapp.com'
 
     resource '*',
       headers: :any,
